@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PRONET PLAN NOLIMIT — Flyer</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --bg-dark:#0b0f14;
+    --card:#ffdc7a; /* gold-like */
+    --card-dark:#f5c518;
+    --muted: rgba(255,255,255,0.75);
+    --glass: rgba(255,255,255,0.06);
+    --accent:#ffd83b;
+    --shadow: 0 10px 30px rgba(2,6,23,0.6);
+    --danger: #ff4757;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: var(--bg-dark);
+    color:#07121a;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    overflow-x:hidden;
+  }
+
+  /* Animated canvas sits behind everything */
+  #bgCanvas{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    display:block;
+  }
+
+  /* subtle animated gradient overlay */
+  .gradient-overlay{
+    position:fixed;
+    inset:0;
+    background: linear-gradient(120deg, rgba(245,200,88,0.06) 0%, rgba(255, 140, 75,0.02) 25%, rgba(162,155,254,0.03) 60%, rgba(255,255,255,0.01) 100%);
+    pointer-events:none;
+    z-index:1;
+    mix-blend-mode: screen;
+  }
+
+  /* Layout container */
+  .container{
+    max-width:1100px;
+    margin:40px auto;
+    padding:28px;
+    position:relative;
+    z-index:2; /* over bg */
+  }
+
+  header{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    justify-content:space-between;
+    padding:12px 6px;
+  }
+  .brand{
+    display:flex;
+    gap:14px;
+    align-items:center;
+  }
+  .brand img{
+    width:78px;
+    height:78px;
+    object-fit:cover;
+    border-radius:14px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+    border:4px solid rgba(255,255,255,0.06);
+    background: linear-gradient(180deg,#fff,#ffeaa7);
+  }
+  .brand .title{
+    font-weight:800;
+    color:var(--card);
+    letter-spacing:0.6px;
+    font-size:20px;
+  }
+  .brand .subtitle{
+    font-size:12px;color:var(--muted);
+  }
+
+  /* Main flyer & sidebar */
+  .layout{
+    display:grid;
+    grid-template-columns: 1fr 360px;
+    gap:28px;
+    align-items:start;
+    margin-top:18px;
+  }
+
+  /* Flyer card */
+  .flyer{
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    border-radius:16px;
+    padding:26px;
+    box-shadow: var(--shadow);
+    border:1px solid rgba(255,255,255,0.04);
+    overflow:hidden;
+  }
+
+  .flyer-inner{
+    display:flex;
+    gap:22px;
+    align-items:flex-start;
+  }
+
+  .flyer-left{
+    flex:1;
+  }
+
+  .f-title{
+    font-size:28px;
+    font-weight:800;
+    color:var(--card-dark);
+    margin-bottom:10px;
+    transform:translateY(10px);
+    opacity:0;
+    animation:slideIn 600ms ease forwards 150ms;
+  }
+  .f-sub{
+    color:var(--muted);
+    font-weight:600;
+    margin-bottom:18px;
+    opacity:0;
+    transform:translateY(6px);
+    animation:slideIn 600ms ease forwards 250ms;
+  }
+
+  .plans{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:12px;
+    margin-bottom:12px;
+  }
+
+  .plan-pill{
+    background: rgba(0,0,0,0.12);
+    padding:12px;
+    border-radius:10px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border:1px solid rgba(255,255,255,0.035);
+    color: #fff;
+    font-weight:700;
+    font-size:15px;
+    backdrop-filter: blur(4px);
+    transform:translateY(10px);
+    opacity:0;
+    animation:popIn 500ms ease forwards;
+    position: relative;
+    overflow: hidden;
+  }
+  .plan-pill:nth-child(1){animation-delay:380ms}
+  .plan-pill:nth-child(2){animation-delay:420ms}
+  .plan-pill:nth-child(3){animation-delay:460ms}
+  .plan-pill:nth-child(4){animation-delay:500ms}
+  .plan-pill:nth-child(5){animation-delay:540ms}
+  .plan-pill:nth-child(6){animation-delay:580ms}
+
+  .price{ color:var(--card); font-weight:800; margin-left:10px }
+  .note { font-weight:600; color:rgba(255,255,255,0.75); font-size:13px; margin-top:14px }
+  
+  /* Timer styles */
+  .timer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    overflow: hidden;
+  }
+  
+  .timer-progress {
+    height: 100%;
+    background: linear-gradient(90deg, var(--card), var(--card-dark));
+    width: 100%;
+    transition: width 1s linear;
+  }
+  
+  .timer-text {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .timer-expired {
+    color: var(--danger);
+    font-weight: 700;
+  }
+  
+  .timer-expired .timer-progress {
+    background: var(--danger);
+  }
+
+  /* Right column (contact / qr / links) */
+  .sidebar{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    padding:18px;
+    border-radius:14px;
+    box-shadow: 0 8px 20px rgba(2,6,23,0.55);
+    border:1px solid rgba(255,255,255,0.04);
+  }
+
+  .sidebar h3{ color:var(--card-dark); margin:0 0 8px 0; font-size:18px }
+  .sidebar p{ color:var(--muted); font-size:13px; margin-bottom:14px }
+
+  .qr{
+    width:100%;
+    height:200px;
+    border-radius:12px;
+    background: linear-gradient(180deg,#fff,#fff4cc);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#222;
+    font-weight:800;
+    box-shadow: inset 0 -30px 40px rgba(0,0,0,0.04);
+    margin-bottom:14px;
+    position:relative;
+  }
+  .qr .placeholder{ font-size:13px; color:#2b2b2b66 }
+
+  .links{ display:flex; flex-direction:column; gap:10px }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    justify-content:center;
+    padding:10px 14px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:700;
+    border: 1px solid rgba(0,0,0,0.06);
+    transition:transform .18s ease, box-shadow .18s ease;
+    cursor:pointer;
+  }
+
+  .btn-ws{
+    background: linear-gradient(90deg,#25D366,#1fa94a);
+    color:white;
+    box-shadow: 0 6px 18px rgba(37,211,102,0.18);
+  }
+  .btn-selar{
+    background: linear-gradient(90deg,#ffd83b,#f5c518);
+    color:#07121a;
+    box-shadow: 0 6px 18px rgba(245,200,88,0.18);
+  }
+  .btn-qr{
+    background: transparent;
+    border:1px dashed rgba(255,255,255,0.06);
+    color:var(--muted);
+    justify-content:flex-start;
+    padding:12px;
+  }
+
+  .btn:hover{ transform: translateY(-6px) }
+
+  /* small details footer inside container */
+  .meta{
+    margin-top:16px;
+    color:rgba(255,255,255,0.55);
+    font-size:13px;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:center;
+  }
+
+  /* Floating bottom action bar */
+  .floatbar{
+    position:fixed;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:22px;
+    z-index:3;
+    background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    padding:8px 16px;
+    border-radius:40px;
+    display:flex;
+    gap:12px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.45);
+    border:1px solid rgba(255,255,255,0.04);
+    backdrop-filter: blur(6px);
+  }
+
+  .floatbar a{ color:var(--card); text-decoration:none; font-weight:800 }
+
+  /* Responsive */
+  @media (max-width:1050px){
+    .layout{ grid-template-columns: 1fr 320px }
+  }
+  @media (max-width:880px){
+    .layout{ grid-template-columns: 1fr; }
+    .sidebar{ order:2; margin-top:12px }
+  }
+  @media (max-width: 768px) {
+    .container {
+      margin: 20px auto;
+      padding: 16px;
+    }
+    
+    header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    
+    .brand {
+      gap: 12px;
+    }
+    
+    .brand img {
+      width: 60px;
+      height: 60px;
+    }
+    
+    .brand .title {
+      font-size: 18px;
+    }
+    
+    .flyer-inner {
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .flyer-left {
+      width: 100%;
+    }
+    
+    .plans {
+      grid-template-columns: 1fr;
+    }
+    
+    .f-title {
+      font-size: 24px;
+    }
+    
+    .floatbar {
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 90%;
+      padding: 6px 12px;
+    }
+    
+    .floatbar a {
+      font-size: 14px;
+    }
+  }
+  @media (max-width: 480px) {
+    .container {
+      padding: 12px;
+    }
+    
+    .flyer {
+      padding: 16px;
+    }
+    
+    .sidebar {
+      padding: 14px;
+    }
+    
+    .qr {
+      height: 160px;
+    }
+    
+    .f-title {
+      font-size: 22px;
+    }
+    
+    .plan-pill {
+      padding: 10px;
+      font-size: 14px;
+    }
+    
+    .btn {
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+  }
+
+  /* Animations */
+  @keyframes slideIn {
+    from{ opacity:0; transform:translateY(10px) }
+    to{ opacity:1; transform:translateY(0) }
+  }
+  @keyframes popIn {
+    from{ opacity:0; transform:scale(.98) translateY(10px) }
+    to{ opacity:1; transform:scale(1) translateY(0) }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+<div class="gradient-overlay" aria-hidden="true"></div>
+
+<div class="container" role="main">
+  <header>
+    <div class="brand" aria-label="Brand">
+      <!-- Replace this logo img with your own -->
+      <img src="https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000959468.png?alt=media&token=f6d0e558-959a-4340-ba28-dd9f951bcf6c" alt="Logo placeholder">
+      <div>
+        <div class="title">PRONET PLAN NOLIMIT</div>
+        <div class="subtitle">Fast • Affordable • 24/7</div>
+      </div>
+    </div>
+
+    <div style="text-align:right">
+      <div style="font-weight:700;color:var(--card-dark)">CUINS — Campus Network</div>
+      <div style="color:var(--muted);font-size:13px">Promotions & Subscriptions</div>
+    </div>
+  </header>
+
+  <section class="layout" aria-label="Flyer and controls">
+    <!-- Flyer -->
+    <article class="flyer" aria-labelledby="flyerTitle">
+      <div class="flyer-inner">
+        <div class="flyer-left">
+          <h1 id="flyerTitle" class="f-title">PRONET PLAN NOLIMIT</h1>
+          <div class="f-sub">Affordable bundles tailored for students and everyone on campus — choose what suits you.</div>
+
+          <div class="plans" aria-hidden="false">
+            <div class="plan-pill" data-duration="3" data-expiry="2025-12-31T23:59:59">
+              <div>500 XAF</div>
+              <div class="price">4GB • 3 days</div>
+              <div class="timer">
+                <div class="timer-progress"></div>
+              </div>
+              <div class="timer-text">
+                <span>Expires in:</span>
+                <span class="timer-display"></span>
+              </div>
+            </div>
+            <div class="plan-pill" data-duration="30" data-expiry="2025-12-31T23:59:59">
+              <div>1000 XAF</div>
+              <div class="price">10GB • 1 month</div>
+              <div class="timer">
+                <div class="timer-progress"></div>
+              </div>
+              <div class="timer-text">
+                <span>Expires in:</span>
+                <span class="timer-display"></span>
+              </div>
+            </div>
+            <div class="plan-pill" data-duration="7" data-expiry="2025-12-31T23:59:59">
+              <div>600 XAF</div>
+              <div class="price">1 week</div>
+              <div class="timer">
+                <div class="timer-progress"></div>
+              </div>
+              <div class="timer-text">
+                <span>Expires in:</span>
+                <span class="timer-display"></span>
+              </div>
+            </div>
+            <div class="plan-pill" data-duration="14" data-expiry="2025-12-31T23:59:59">
+              <div>1000 XAF</div>
+              <div class="price">2 weeks</div>
+              <div class="timer">
+                <div class="timer-progress"></div>
+              </div>
+              <div class="timer-text">
+                <span>Expires in:</span>
+                <span class="timer-display"></span>
+              </div>
+            </div>
+            <div class="plan-pill" data-duration="30" data-expiry="2025-12-31T23:59:59">
+              <div>3000 XAF</div>
+              <div class="price">1 month • +10GB free</div>
+              <div class="timer">
+                <div class="timer-progress"></div>
+              </div>
+              <div class="timer-text">
+                <span>Expires in:</span>
+                <span class="timer-display"></span>
+              </div>
+            </div>
+            <div class="plan-pill" data-duration="30" data-expiry="2025-12-31T23:59:59">
+              <div>2000 XAF</div>
+              <div class="price">1 month • Off-campus</div>
+              <div class="timer">
+                <div class="timer-progress"></div>
+              </div>
+              <div class="timer-text">
+                <span>Expires in:</span>
+                <span class="timer-display"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="note">Right column contains quick contact links (WhatsApp, Selar) and a QR placeholder. Replace links and images as needed.</div>
+        </div>
+
+        <!-- large flyer visual area (you can drop an image here) -->
+        <div style="width:320px;min-width:200px;">
+          <div style="width:100%;height:220px;border-radius:12px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.03);">
+            <!-- Put your flyer image or design here. For now show a stylized placeholder -->
+            <img alt="Flyer placeholder" src="https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000959468.png?alt=media&token=f6d0e558-959a-4340-ba28-dd9f951bcf6c" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:8px;">
+            <a class="btn btn-qr" href="https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000960376.jpg?alt=media&token=d67e79e2-dddb-4555-a343-9d027f456600" onclick="alert('https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000960376.jpg?alt=media&token=d67e79e2-dddb-4555-a343-9d027f456600')" title="QR placeholder">
+              <i class="fa-solid fa-qrcode" style="opacity:.95"></i> QR / Promo
+            </a>
+            <a class="btn" style="background:var(--glass);color:var(--muted)" href="https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000959468.png?alt=media&token=f6d0e558-959a-4340-ba28-dd9f951bcf6c" onclick="alert('https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000959468.png?alt=media&token=f6d0e558-959a-4340-ba28-dd9f951bcf6c')">
+              <i class="fa-solid fa-download"></i> Download
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Contact and links">
+      <h3>Quick Contact</h3>
+      <p>Use the links below to reach customers instantly or sell via Selar. Replace placeholder links with your real URLs.</p>
+
+      <div class="qr" aria-hidden="false">
+        <div>
+          <div style="font-size:18px;font-weight:800;color:#2b2b2b"><img src="https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000960376.jpg?alt=media&token=d67e79e2-dddb-4555-a343-9d027f456600" height="150px" width="150px"></div>
+          <div class="placeholder" style="margin-top:6px"></div>
+        </div>
+        <!-- You can later inject an <img> QR code here. -->
+      </div>
+
+      <div class="links">
+        <!-- Replace href values with your links -->
+        <a class="btn btn-ws" id="whatsappLink" href="https://wa.me/237673805208?text=Hello,%20greetings%20to%20the%20*PRONET*%20Community,%20I%20wish%20to%20purchase%20an%20internet%20bundle%20______________" target="_blank" rel="noopener">
+          <i class="fa-brands fa-whatsapp"></i> Message on WhatsApp
+        </a>
+
+        <a class="btn btn-selar" id="selarLink" href="https://selar.com/pbcn6cnikl" target="_blank" rel="noopener">
+          <i class="fa-solid fa-store"></i> Visit Selar Store
+        </a>
+
+        <a class="btn btn-qr" id="moreLink" href="https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000960376.jpg?alt=media&token=d67e79e2-dddb-4555-a343-9d027f456600" onclick="alert('Replace with your social or registration link');return false;">
+          <i class="fa-solid fa-link"></i> Other links / Register
+        </a>
+      </div>
+
+      <div class="meta">
+        <div style="display:flex;align-items:center;gap:8px">
+          <i class="fa-solid fa-circle" style="color:var(--card);font-size:10px"></i>
+          <div>24/7 Support</div>
+        </div>
+        <div style="font-weight:800;color:var(--card-dark)">CUINS</div>
+      </div>
+    </aside>
+  </section>
+</div>
+
+<!-- floating action bar -->
+<div class="floatbar" role="navigation" aria-label="Quick actions">
+  <a href="https://wa.me/237673805208?text=Hello,%20greetings%20to%20the%20*PRONET*%20Community,%20I%20wish%20to%20purchase%20an%20internet%20bundle%20______________" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+  <a href="https://selar.com/pbcn6cnikl" target="_blank" rel="noopener"><i class="fa-solid fa-store"></i> Selar</a>
+  <a href="#" onclick="alert('Edit contact settings in page source');return false"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+</div>
+
+<script>
+/* ---------------------------
+   Background particles + glow
+   Simple performant particle system using canvas
+   Replace colors or tweak counts below
+   --------------------------- */
+(function(){
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = innerWidth;
+  let h = canvas.height = innerHeight;
+  const DPR = window.devicePixelRatio || 1;
+  canvas.width = innerWidth * DPR;
+  canvas.height = innerHeight * DPR;
+  canvas.style.width = innerWidth + 'px';
+  canvas.style.height = innerHeight + 'px';
+  ctx.scale(DPR, DPR);
+
+  const config = {
+    particles: 60,
+    minR: 0.8,
+    maxR: 2.8,
+    speed: 0.2,
+    hueBase: 45, // gold tone
+    hueRange: 50,
+    lineDistance: 140
+  };
+
+  let particles = [];
+
+  function rand(min,max){ return Math.random()*(max-min)+min; }
+
+  function makeParticle(){
+    return {
+      x: rand(0,w),
+      y: rand(0,h),
+      r: rand(config.minR, config.maxR),
+      vx: rand(-config.speed, config.speed),
+      vy: rand(-config.speed, config.speed),
+      hue: rand(config.hueBase - config.hueRange/2, config.hueBase + config.hueRange/2),
+      alpha: rand(0.15, 0.6)
+    };
+  }
+
+  function init(){
+    w = canvas.width = innerWidth * DPR;
+    h = canvas.height = innerHeight * DPR;
+    canvas.style.width = innerWidth + 'px';
+    canvas.style.height = innerHeight + 'px';
+    ctx.scale(DPR, DPR);
+    particles = [];
+    for(let i=0;i<config.particles;i++) particles.push(makeParticle());
+  }
+
+  function step(){
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+
+    // background subtle radial glow
+    const grd = ctx.createLinearGradient(0,0,w,h);
+    grd.addColorStop(0, 'rgba(255,205,80,0.02)');
+    grd.addColorStop(1, 'rgba(120,75,240,0.02)');
+    ctx.fillStyle = grd;
+    ctx.fillRect(0,0,innerWidth,innerHeight);
+
+    // draw particles
+    for(let p of particles){
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if(p.x < -10) p.x = innerWidth + 10;
+      if(p.x > innerWidth +10) p.x = -10;
+      if(p.y < -10) p.y = innerHeight + 10;
+      if(p.y > innerHeight +10) p.y = -10;
+
+      // particle glow
+      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, Math.max(8, p.r*8));
+      g.addColorStop(0, `hsla(${p.hue}, 90%, 60%, ${p.alpha})`);
+      g.addColorStop(0.6, `hsla(${p.hue}, 80%, 55%, ${p.alpha*0.18})`);
+      g.addColorStop(1, `rgba(0,0,0,0)`);
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, Math.max(4, p.r*6), 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    // connect lines
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const a = particles[i], b = particles[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const dist = Math.hypot(dx,dy);
+        if(dist < config.lineDistance){
+          const alpha = 0.12 * (1 - dist / config.lineDistance);
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(245,200,88,${alpha})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  // handle resize
+  let resizeTimer;
+  window.addEventListener('resize', ()=>{
+    // debounce
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(()=>{
+      // reset transform & scale (clear)
+      ctx.setTransform(1,0,0,1,0,0);
+      init();
+    },120);
+  });
+
+  init();
+  step();
+})();
+
+/* Timer functionality for each bundle */
+function initializeTimers() {
+  const planPills = document.querySelectorAll('.plan-pill');
+  
+  planPills.forEach(pill => {
+    const expiryDate = new Date(pill.dataset.expiry).getTime();
+    const duration = parseInt(pill.dataset.duration) * 24 * 60 * 60 * 1000; // Convert days to milliseconds
+    
+    updateTimer(pill, expiryDate, duration);
+    
+    // Update timer every second
+    setInterval(() => {
+      updateTimer(pill, expiryDate, duration);
+    }, 1000);
+  });
+}
+
+function updateTimer(pill, expiryDate, duration) {
+  const now = new Date().getTime();
+  const timeLeft = expiryDate - now;
+  
+  const timerDisplay = pill.querySelector('.timer-display');
+  const timerProgress = pill.querySelector('.timer-progress');
+  
+  if (timeLeft > 0) {
+    // Calculate percentage of time remaining
+    const percentage = (timeLeft / duration) * 100;
+    timerProgress.style.width = `${percentage}%`;
+    
+    // Calculate days, hours, minutes, seconds
+    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+    
+    // Format display
+    if (days > 0) {
+      timerDisplay.textContent = `${days}d ${hours}h ${minutes}m`;
+    } else if (hours > 0) {
+      timerDisplay.textContent = `${hours}h ${minutes}m ${seconds}s`;
+    } else {
+      timerDisplay.textContent = `${minutes}m ${seconds}s`;
+    }
+    
+    // Remove expired class if present
+    pill.classList.remove('timer-expired');
+  } else {
+    // Timer has expired
+    timerDisplay.textContent = 'EXPIRED';
+    timerProgress.style.width = '0%';
+    pill.classList.add('timer-expired');
+  }
+}
+
+/* Entrance micro-interactions: buttons change text to show state (simulated) */
+document.querySelectorAll('.btn-ws, .btn-selar').forEach(btn=>{
+  btn.addEventListener('click', function(e){
+    // if href is placeholder (#) or default, prevent navigation and show a helpful message
+    const href = this.getAttribute('href') || '';
+    if(href.includes('000000') || href.includes('yourstore') || href === '#'){
+      e.preventDefault();
+      const name = this.classList.contains('btn-ws') ? 'WhatsApp' : 'Selar';
+      const original = this.innerHTML;
+      this.style.pointerEvents = 'none';
+      this.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Opening...`;
+      setTimeout(()=>{
+        this.innerHTML = original;
+        this.style.pointerEvents = '';
+        alert(`${name} link is a placeholder — please replace it in the HTML with your real link.`);
+      },900);
+    }
+  });
+});
+
+/* Small accessibility: focus outlines */
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Tab'){
+    document.documentElement.style.scrollBehavior = 'smooth';
+  }
+});
+
+// Initialize timers when page loads
+document.addEventListener('DOMContentLoaded', initializeTimers);
+</script>
+</body>
+</html>
