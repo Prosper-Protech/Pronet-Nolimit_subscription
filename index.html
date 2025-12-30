@@ -3,780 +3,1715 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>PRONET PLAN NOLIMIT — Flyer</title>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<title>PRONET Tera-Link — Internet</title>
+<!-- Tailwind CSS -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg-dark:#0b0f14;
-    --card:#ffdc7a; /* gold-like */
-    --card-dark:#f5c518;
-    --muted: rgba(255,255,255,0.75);
-    --glass: rgba(255,255,255,0.06);
-    --accent:#ffd83b;
-    --shadow: 0 10px 30px rgba(2,6,23,0.6);
-    --danger: #ff4757;
+    --bg-dark:#0a0a0a;
+    --card-bg:#111111;
+    --card-surface:#1a1a1a;
+    --gold-primary:#FFD700;
+    --gold-secondary:#FFC300;
+    --gold-accent:#FFE55C;
+    --gold-dark:#B8860B;
+    --bronze:#CD7F32;
+    --text-primary:#ffffff;
+    --text-secondary:#d4d4d4;
+    --text-muted:#a1a1a1;
+    --border-color:#2a2a2a;
+    --shadow-gold: 0 20px 60px rgba(255, 215, 0, 0.15);
   }
 
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
     margin:0;
-    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    font-family:'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     background: var(--bg-dark);
-    color:#07121a;
+    color:var(--text-primary);
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
     overflow-x:hidden;
+    position: relative;
   }
 
-  /* Animated canvas sits behind everything */
-  #bgCanvas{
-    position:fixed;
-    inset:0;
-    z-index:0;
-    display:block;
+  h1, h2, h3, h4, .gold-font {
+    font-family: 'Playfair Display', serif;
   }
 
-  /* subtle animated gradient overlay */
-  .gradient-overlay{
-    position:fixed;
-    inset:0;
-    background: linear-gradient(120deg, rgba(245,200,88,0.06) 0%, rgba(255, 140, 75,0.02) 25%, rgba(162,155,254,0.03) 60%, rgba(255,255,255,0.01) 100%);
-    pointer-events:none;
-    z-index:1;
-    mix-blend-mode: screen;
+  /* Geometric Background Pattern */
+  .abstract-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 195, 0, 0.03) 0%, transparent 50%);
+    z-index: 0;
+    opacity: 0.6;
   }
 
-  /* Layout container */
+  /* Floating Abstract Shapes */
+  .floating-shapes {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .floating-shape {
+    position: absolute;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 195, 0, 0.05));
+    animation: float 20s infinite ease-in-out;
+  }
+
+  /* Flexible Card Shapes */
+  .organic-card {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 28px;
+    padding: 40px;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    min-height: 500px;
+    /* Organic shape with multiple curves */
+    clip-path: polygon(
+      0% 15%, 
+      15% 0%, 
+      85% 0%, 
+      100% 15%, 
+      100% 85%, 
+      85% 100%, 
+      15% 100%, 
+      0% 85%,
+      0% 15%
+    );
+  }
+
+  .organic-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .organic-card:hover::before {
+    opacity: 1;
+  }
+
+  .organic-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--gold-primary);
+    box-shadow: var(--shadow-gold);
+  }
+
+  /* Premium Card Shape */
+  .premium-card {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 32px;
+    padding: 45px;
+    position: relative;
+    overflow: hidden;
+    min-height: 550px;
+    /* Asymmetric organic shape */
+    clip-path: polygon(
+      0% 20%,
+      20% 0%,
+      80% 0%,
+      100% 20%,
+      100% 80%,
+      80% 100%,
+      20% 100%,
+      0% 80%
+    );
+  }
+
+  .premium-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      rgba(255, 215, 0, 0.03) 50%,
+      transparent 100%
+    );
+    z-index: 0;
+  }
+
+  .premium-card:hover {
+    transform: translateY(-12px) rotate(0.5deg);
+    border-color: var(--gold-primary);
+    box-shadow: 
+      0 25px 50px rgba(255, 215, 0, 0.2),
+      inset 0 0 100px rgba(255, 215, 0, 0.05);
+  }
+
+  /* Main container */
   .container{
-    max-width:1100px;
-    margin:40px auto;
-    padding:28px;
+    max-width:1400px;
+    margin:0 auto;
+    padding:20px;
     position:relative;
-    z-index:2; /* over bg */
+    z-index:2;
   }
 
-  header{
-    display:flex;
-    align-items:center;
-    gap:18px;
-    justify-content:space-between;
-    padding:12px 6px;
-  }
-  .brand{
-    display:flex;
-    gap:14px;
-    align-items:center;
-  }
-  .brand img{
-    width:78px;
-    height:78px;
-    object-fit:cover;
-    border-radius:14px;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.5);
-    border:4px solid rgba(255,255,255,0.06);
-    background: linear-gradient(180deg,#fff,#ffeaa7);
-  }
-  .brand .title{
-    font-weight:800;
-    color:var(--card);
-    letter-spacing:0.6px;
-    font-size:20px;
-  }
-  .brand .subtitle{
-    font-size:12px;color:var(--muted);
+  /* Header */
+  .header {
+    padding: 32px 0;
+    margin-bottom: 60px;
+    position: relative;
   }
 
-  /* Main flyer & sidebar */
-  .layout{
-    display:grid;
-    grid-template-columns: 1fr 360px;
-    gap:28px;
-    align-items:start;
-    margin-top:18px;
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), transparent);
+    clip-path: polygon(0% 20%, 100% 0%, 100% 100%, 0% 80%);
   }
 
-  /* Flyer card */
-  .flyer{
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-    border-radius:16px;
-    padding:26px;
-    box-shadow: var(--shadow);
-    border:1px solid rgba(255,255,255,0.04);
-    overflow:hidden;
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
   }
 
-  .flyer-inner{
-    display:flex;
-    gap:22px;
-    align-items:flex-start;
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 20px;
   }
 
-  .flyer-left{
-    flex:1;
+  .logo-shape {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+    clip-path: polygon(0% 20%, 20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
   }
 
-  .f-title{
-    font-size:28px;
-    font-weight:800;
-    color:var(--card-dark);
-    margin-bottom:10px;
-    transform:translateY(10px);
-    opacity:0;
-    animation:slideIn 600ms ease forwards 150ms;
-  }
-  .f-sub{
-    color:var(--muted);
-    font-weight:600;
-    margin-bottom:18px;
-    opacity:0;
-    transform:translateY(6px);
-    animation:slideIn 600ms ease forwards 250ms;
+  .logo-text h1 {
+    font-size: 36px;
+    font-weight: 900;
+    margin: 0;
+    background: linear-gradient(135deg, var(--gold-primary), var(--bronze));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 1px;
   }
 
-  .plans{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:12px;
-    margin-bottom:12px;
+  .logo-text p {
+    font-size: 14px;
+    color: var(--gold-accent);
+    margin: 8px 0 0 0;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
   }
 
-  .plan-pill{
-    background: rgba(0,0,0,0.12);
-    padding:12px;
-    border-radius:10px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border:1px solid rgba(255,255,255,0.035);
-    color: #fff;
-    font-weight:700;
-    font-size:15px;
-    backdrop-filter: blur(4px);
-    transform:translateY(10px);
-    opacity:0;
-    animation:popIn 500ms ease forwards;
+  .premium-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    background: rgba(255, 215, 0, 0.1);
+    border: 2px solid var(--gold-primary);
+    border-radius: 50px;
     position: relative;
     overflow: hidden;
   }
-  .plan-pill:nth-child(1){animation-delay:380ms}
-  .plan-pill:nth-child(2){animation-delay:420ms}
-  .plan-pill:nth-child(3){animation-delay:460ms}
-  .plan-pill:nth-child(4){animation-delay:500ms}
-  .plan-pill:nth-child(5){animation-delay:540ms}
-  .plan-pill:nth-child(6){animation-delay:580ms}
 
-  .price{ color:var(--card); font-weight:800; margin-left:10px }
-  .note { font-weight:600; color:rgba(255,255,255,0.75); font-size:13px; margin-top:14px }
-  
-  /* Timer styles */
-  .timer {
+  .premium-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .premium-badge:hover::before {
+    left: 100%;
+  }
+
+  .status-dot {
+    width: 12px;
+    height: 12px;
+    background: var(--gold-primary);
+    border-radius: 50%;
+    animation: pulse-gold 2s infinite;
+    box-shadow: 0 0 20px var(--gold-primary);
+  }
+
+  /* Navigation */
+  .organic-nav {
+    display: flex;
+    gap: 2px;
+    background: var(--card-surface);
+    padding: 8px;
+    border-radius: 20px;
+    margin-bottom: 60px;
+    max-width: fit-content;
+    border: 2px solid var(--border-color);
+    position: relative;
+    clip-path: polygon(0% 20%, 5% 0%, 95% 0%, 100% 20%, 100% 80%, 95% 100%, 5% 100%, 0% 80%);
+  }
+
+  .nav-item {
+    padding: 16px 32px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .nav-item.active {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(205, 127, 50, 0.1));
+    color: var(--gold-primary);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+  }
+
+  .nav-item:not(.active):hover {
+    background: rgba(255, 215, 0, 0.05);
+    color: var(--gold-accent);
+  }
+
+  /* Card Images */
+  .card-image {
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 30px;
+    clip-path: polygon(0% 20%, 20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%);
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--gold-primary), var(--bronze));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: white;
+    position: relative;
+  }
+
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card-image i {
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  }
+
+  .card-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .card-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--gold-primary);
+    margin-bottom: 8px;
+  }
+
+  .card-subtitle {
+    color: var(--text-secondary);
+    font-size: 14px;
+  }
+
+  .card-price {
+    font-size: 56px;
+    font-weight: 900;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .card-price::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+  }
+
+  .card-price span {
+    font-size: 28px;
+    color: var(--gold-accent);
+    font-weight: 700;
+  }
+
+  /* Storage Badge */
+  .storage-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, rgba(32, 201, 151, 0.2), rgba(32, 201, 151, 0.1));
+    color: #20c997;
+    padding: 10px 18px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 14px;
+    margin: 15px auto;
+    border: 1px solid rgba(32, 201, 151, 0.3);
+  }
+
+  .storage-badge i {
+    font-size: 16px;
+  }
+
+  .features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px 0;
+  }
+
+  .features-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    color: var(--text-secondary);
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+  }
+
+  .features-list li i {
+    color: var(--gold-primary);
+    font-size: 14px;
+    background: rgba(255, 215, 0, 0.1);
+    padding: 6px;
+    border-radius: 6px;
+  }
+
+  .organic-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--gold-primary), var(--bronze));
+    color: #000;
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    clip-path: polygon(0% 20%, 5% 0%, 95% 0%, 100% 20%, 100% 80%, 95% 100%, 5% 100%, 0% 80%);
+  }
+
+  .organic-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .organic-btn:hover::before {
+    left: 100%;
+  }
+
+  .organic-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
+    color: #000;
+  }
+
+  /* Testimonials Section */
+  .testimonials-section {
+    margin: 100px 0;
+    position: relative;
+  }
+
+  .testimonials-container {
+    position: relative;
+    padding: 60px 0;
+  }
+
+  .testimonials-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+  }
+
+  .testimonial-card {
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 25px;
+    padding: 35px;
+    position: relative;
+    transition: all 0.4s ease;
+    clip-path: polygon(0% 15%, 10% 0%, 90% 0%, 100% 15%, 100% 85%, 90% 100%, 10% 100%, 0% 85%);
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--gold-primary);
+    box-shadow: var(--shadow-gold);
+  }
+
+  .testimonial-rating {
+    color: var(--gold-primary);
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .testimonial-text {
+    color: var(--text-secondary);
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    font-size: 15px;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .author-avatar {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--gold-primary), var(--bronze));
+    clip-path: polygon(0% 20%, 20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #000;
+    font-weight: bold;
+  }
+
+  .author-info h4 {
+    color: var(--gold-primary);
+    margin: 0 0 5px 0;
+    font-size: 16px;
+  }
+
+  .author-info p {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin: 0;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: sticky;
+    top: 40px;
+    background: var(--card-bg);
+    border: 2px solid var(--border-color);
+    border-radius: 25px;
+    padding: 30px;
+    clip-path: polygon(0% 15%, 15% 0%, 85% 0%, 100% 15%, 100% 85%, 85% 100%, 15% 100%, 0% 85%);
+    height: fit-content;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar:hover {
+    border-color: var(--gold-primary);
+    box-shadow: var(--shadow-gold);
+  }
+
+  .sidebar-title {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 30px;
+    color: var(--gold-primary);
+    text-align: center;
+    position: relative;
+  }
+
+  .sidebar-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--gold-primary);
+  }
+
+  .qr-container {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 30px;
+    clip-path: polygon(0% 20%, 20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%);
+    background: linear-gradient(135deg, var(--gold-primary), var(--bronze));
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .qr-inner {
+    width: 100%;
+    height: 100%;
+    background: white;
+    clip-path: polygon(0% 20%, 20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+  }
+
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .gold-btn {
+    padding: 18px;
+    background: linear-gradient(135deg, var(--gold-primary), var(--bronze));
+    color: #000;
+    border: none;
+    border-radius: 15px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(0% 20%, 5% 0%, 95% 0%, 100% 20%, 100% 80%, 95% 100%, 5% 100%, 0% 80%);
+  }
+
+  .gold-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+  }
+
+  .outline-btn {
+    background: transparent;
+    color: var(--gold-primary);
+    border: 2px solid var(--gold-primary);
+  }
+
+  .outline-btn:hover {
+    background: rgba(255, 215, 0, 0.1);
+    color: var(--gold-accent);
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 2px solid var(--border-color);
+    position: relative;
+  }
+
+  .footer::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 30px;
+  }
+
+  .footer-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 5px 0;
+  }
+
+  .footer-links a::after {
+    content: '';
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
-    height: 4px;
-    background: rgba(255,255,255,0.1);
-    overflow: hidden;
+    width: 0;
+    height: 2px;
+    background: var(--gold-primary);
+    transition: width 0.3s ease;
   }
-  
-  .timer-progress {
-    height: 100%;
-    background: linear-gradient(90deg, var(--card), var(--card-dark));
-    width: 100%;
-    transition: width 1s linear;
+
+  .footer-links a:hover {
+    color: var(--gold-primary);
   }
-  
-  .timer-text {
-    font-size: 10px;
-    color: var(--muted);
-    margin-top: 4px;
-    display: flex;
-    justify-content: space-between;
+
+  .footer-links a:hover::after {
     width: 100%;
   }
-  
-  .timer-expired {
-    color: var(--danger);
-    font-weight: 700;
-  }
-  
-  .timer-expired .timer-progress {
-    background: var(--danger);
-  }
 
-  /* Right column (contact / qr / links) */
-  .sidebar{
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    padding:18px;
-    border-radius:14px;
-    box-shadow: 0 8px 20px rgba(2,6,23,0.55);
-    border:1px solid rgba(255,255,255,0.04);
-  }
-
-  .sidebar h3{ color:var(--card-dark); margin:0 0 8px 0; font-size:18px }
-  .sidebar p{ color:var(--muted); font-size:13px; margin-bottom:14px }
-
-  .qr{
-    width:100%;
-    height:200px;
-    border-radius:12px;
-    background: linear-gradient(180deg,#fff,#fff4cc);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#222;
-    font-weight:800;
-    box-shadow: inset 0 -30px 40px rgba(0,0,0,0.04);
-    margin-bottom:14px;
-    position:relative;
-  }
-  .qr .placeholder{ font-size:13px; color:#2b2b2b66 }
-
-  .links{ display:flex; flex-direction:column; gap:10px }
-
-  .btn{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    justify-content:center;
-    padding:10px 14px;
-    border-radius:10px;
-    text-decoration:none;
-    font-weight:700;
-    border: 1px solid rgba(0,0,0,0.06);
-    transition:transform .18s ease, box-shadow .18s ease;
-    cursor:pointer;
-  }
-
-  .btn-ws{
-    background: linear-gradient(90deg,#25D366,#1fa94a);
-    color:white;
-    box-shadow: 0 6px 18px rgba(37,211,102,0.18);
-  }
-  .btn-selar{
-    background: linear-gradient(90deg,#ffd83b,#f5c518);
-    color:#07121a;
-    box-shadow: 0 6px 18px rgba(245,200,88,0.18);
-  }
-  .btn-qr{
-    background: transparent;
-    border:1px dashed rgba(255,255,255,0.06);
-    color:var(--muted);
-    justify-content:flex-start;
-    padding:12px;
-  }
-
-  .btn:hover{ transform: translateY(-6px) }
-
-  /* small details footer inside container */
-  .meta{
-    margin-top:16px;
-    color:rgba(255,255,255,0.55);
-    font-size:13px;
-    display:flex;
-    justify-content:space-between;
-    gap:12px;
-    align-items:center;
-  }
-
-  /* Floating bottom action bar */
-  .floatbar{
-    position:fixed;
-    left:50%;
-    transform:translateX(-50%);
-    bottom:22px;
-    z-index:3;
-    background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-    padding:8px 16px;
-    border-radius:40px;
-    display:flex;
-    gap:12px;
-    box-shadow:0 8px 30px rgba(0,0,0,0.45);
-    border:1px solid rgba(255,255,255,0.04);
-    backdrop-filter: blur(6px);
-  }
-
-  .floatbar a{ color:var(--card); text-decoration:none; font-weight:800 }
-
-  /* Responsive */
-  @media (max-width:1050px){
-    .layout{ grid-template-columns: 1fr 320px }
-  }
-  @media (max-width:880px){
-    .layout{ grid-template-columns: 1fr; }
-    .sidebar{ order:2; margin-top:12px }
-  }
-  @media (max-width: 768px) {
-    .container {
-      margin: 20px auto;
-      padding: 16px;
-    }
-    
-    header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 12px;
-    }
-    
-    .brand {
-      gap: 12px;
-    }
-    
-    .brand img {
-      width: 60px;
-      height: 60px;
-    }
-    
-    .brand .title {
-      font-size: 18px;
-    }
-    
-    .flyer-inner {
-      flex-direction: column;
-      gap: 16px;
-    }
-    
-    .flyer-left {
-      width: 100%;
-    }
-    
-    .plans {
-      grid-template-columns: 1fr;
-    }
-    
-    .f-title {
-      font-size: 24px;
-    }
-    
-    .floatbar {
-      flex-wrap: wrap;
-      justify-content: center;
-      width: 90%;
-      padding: 6px 12px;
-    }
-    
-    .floatbar a {
-      font-size: 14px;
-    }
-  }
-  @media (max-width: 480px) {
-    .container {
-      padding: 12px;
-    }
-    
-    .flyer {
-      padding: 16px;
-    }
-    
-    .sidebar {
-      padding: 14px;
-    }
-    
-    .qr {
-      height: 160px;
-    }
-    
-    .f-title {
-      font-size: 22px;
-    }
-    
-    .plan-pill {
-      padding: 10px;
-      font-size: 14px;
-    }
-    
-    .btn {
-      padding: 8px 12px;
-      font-size: 14px;
-    }
+  .copyright {
+    color: var(--text-muted);
+    font-size: 14px;
   }
 
   /* Animations */
-  @keyframes slideIn {
-    from{ opacity:0; transform:translateY(10px) }
-    to{ opacity:1; transform:translateY(0) }
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(10deg);
+    }
   }
-  @keyframes popIn {
-    from{ opacity:0; transform:scale(.98) translateY(10px) }
-    to{ opacity:1; transform:scale(1) translateY(0) }
+
+  @keyframes pulse-gold {
+    0%, 100% {
+      opacity: 1;
+      box-shadow: 0 0 20px var(--gold-primary);
+    }
+    50% {
+      opacity: 0.7;
+      box-shadow: 0 0 40px var(--gold-primary);
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .subscription-grid,
+    .premium-grid,
+    .testimonials-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .header-content {
+      flex-direction: column;
+      gap: 30px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .premium-badge {
+      margin-top: 20px;
+    }
+
+    .organic-nav {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .subscription-grid,
+    .premium-grid,
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section-header {
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .footer-content {
+      flex-direction: column;
+      gap: 30px;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .container {
+      padding: 16px;
+    }
+
+    .organic-card,
+    .premium-card,
+    .testimonial-card {
+      padding: 30px;
+    }
+
+    .card-price {
+      font-size: 48px;
+    }
+  }
+
+  /* Grid Layouts */
+  .subscription-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+  }
+
+  .premium-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .section-title {
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--gold-primary);
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold-primary), transparent);
   }
 </style>
 </head>
 <body>
 
-<canvas id="bgCanvas"></canvas>
-<div class="gradient-overlay" aria-hidden="true"></div>
+<div class="abstract-pattern"></div>
+<div class="floating-shapes" id="floatingShapes"></div>
 
-<div class="container" role="main">
-  <header>
-    <div class="brand" aria-label="Brand">
-      <!-- Replace this logo img with your own -->
-      <img src="https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000959468.png?alt=media&token=f6d0e558-959a-4340-ba28-dd9f951bcf6c" alt="Logo placeholder">
-      <div>
-        <div class="title">PRONET PLAN NOLIMIT</div>
-        <div class="subtitle">Fast • Affordable • 24/7</div>
+<div class="container">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <div class="logo">
+       
+        <div class="logo-text">
+          <h1>PRONET TERA-LINK</h1>
+          <p>400Mbps INTERNET + FREE CLOUD STORAGE</p>
+        </div>
       </div>
-    </div>
-
-    <div style="text-align:right">
-      <div style="font-weight:700;color:var(--card-dark)">CUINS — Campus Network</div>
-      <div style="color:var(--muted);font-size:13px">Promotions & Subscriptions</div>
+      <div class="premium-badge">
+        <div class="status-dot"></div>
+        <span class="font-bold text-gold-300">FREE STORAGE INCLUDED WITH BUNDLE • ONLINE</span>
+      </div>
     </div>
   </header>
 
-  <section class="layout" aria-label="Flyer and controls">
-    <!-- Flyer -->
-    <article class="flyer" aria-labelledby="flyerTitle">
-      <div class="flyer-inner">
-        <div class="flyer-left">
-          <h1 id="flyerTitle" class="f-title">PRONET PLAN NOLIMIT</h1>
-          <div class="f-sub">Affordable bundles tailored for students and everyone on campus — choose what suits you.</div>
+  <!-- Navigation -->
+  <nav class="organic-nav">
+      
+    <div class="nav-item">TESTIMONIALS</div>
+    <div class="nav-item">CLOUD STORAGE</div>
+    
+  </nav>
 
-          <div class="plans" aria-hidden="false">
-            <div class="plan-pill" data-duration="3" data-expiry="2025-12-31T23:59:59">
-              <div>500 XAF</div>
-              <div class="price">4GB • 3 days</div>
-              <div class="timer">
-                <div class="timer-progress"></div>
-              </div>
-              <div class="timer-text">
-                <span>Expires in:</span>
-                <span class="timer-display"></span>
-              </div>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+    <!-- Main Content -->
+    <div class="lg:col-span-2">
+      <!-- Premium Plans with Storage -->
+      <div class="mb-16">
+        <h2 class="section-title gold-font">Premium Plans + Free Cloud Storage</h2>
+        <p class="text-gold-200 mt-4 mb-10 text-lg">Get luxury internet PLUS free secure cloud storage with every plan</p>
+        
+        <div class="subscription-grid">
+          <!-- Basic Gold Plan -->
+          <div class="organic-card">
+            <div class="card-image">
+              <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Gold Standard">
+              <i class="fas fa-gem"></i>
             </div>
-            <div class="plan-pill" data-duration="30" data-expiry="2025-12-31T23:59:59">
-              <div>1000 XAF</div>
-              <div class="price">10GB • 1 month</div>
-              <div class="timer">
-                <div class="timer-progress"></div>
-              </div>
-              <div class="timer-text">
-                <span>Expires in:</span>
-                <span class="timer-display"></span>
-              </div>
+            <div class="card-header">
+              <h3 class="card-title">GOLD STANDARD</h3>
+              <p class="card-subtitle">Perfect for everyday excellence</p>
             </div>
-            <div class="plan-pill" data-duration="7" data-expiry="2025-12-31T23:59:59">
-              <div>600 XAF</div>
-              <div class="price">1 week</div>
-              <div class="timer">
-                <div class="timer-progress"></div>
-              </div>
-              <div class="timer-text">
-                <span>Expires in:</span>
-                <span class="timer-display"></span>
-              </div>
+            <div class="card-price">1000<span>XAF</span></div>
+            
+            <!-- Storage Feature -->
+            <div class="storage-badge">
+              <i class="fas fa-cloud-upload-alt"></i>
+              + 15GB FREE Cloud Storage
             </div>
-            <div class="plan-pill" data-duration="14" data-expiry="2025-12-31T23:59:59">
-              <div>1000 XAF</div>
-              <div class="price">2 weeks</div>
-              <div class="timer">
-                <div class="timer-progress"></div>
-              </div>
-              <div class="timer-text">
-                <span>Expires in:</span>
-                <span class="timer-display"></span>
-              </div>
-            </div>
-            <div class="plan-pill" data-duration="30" data-expiry="2025-12-31T23:59:59">
-              <div>3000 XAF</div>
-              <div class="price">1 month • +10GB free</div>
-              <div class="timer">
-                <div class="timer-progress"></div>
-              </div>
-              <div class="timer-text">
-                <span>Expires in:</span>
-                <span class="timer-display"></span>
-              </div>
-            </div>
-            <div class="plan-pill" data-duration="30" data-expiry="2025-12-31T23:59:59">
-              <div>2000 XAF</div>
-              <div class="price">1 month • Off-campus</div>
-              <div class="timer">
-                <div class="timer-progress"></div>
-              </div>
-              <div class="timer-text">
-                <span>Expires in:</span>
-                <span class="timer-display"></span>
-              </div>
-            </div>
-          </div>
-
-          <div class="note">Right column contains quick contact links (WhatsApp, Selar) and a QR placeholder. Replace links and images as needed.</div>
-        </div>
-
-        <!-- large flyer visual area (you can drop an image here) -->
-        <div style="width:320px;min-width:200px;">
-          <div style="width:100%;height:220px;border-radius:12px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.03);">
-            <!-- Put your flyer image or design here. For now show a stylized placeholder -->
-            <img alt="Flyer placeholder" src="https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000959468.png?alt=media&token=f6d0e558-959a-4340-ba28-dd9f951bcf6c" style="width:100%;height:100%;object-fit:cover;">
-          </div>
-
-          <div style="margin-top:12px;display:flex;gap:8px;">
-            <a class="btn btn-qr" href="https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000960376.jpg?alt=media&token=d67e79e2-dddb-4555-a343-9d027f456600" onclick="alert('https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000960376.jpg?alt=media&token=d67e79e2-dddb-4555-a343-9d027f456600')" title="QR placeholder">
-              <i class="fa-solid fa-qrcode" style="opacity:.95"></i> QR / Promo
+            
+            <ul class="features-list">
+              <li><i class="fas fa-check"></i>10GB High-speed Data</li>
+              <li><i class="fas fa-check"></i>30 Days Premium Access</li>
+              <li><i class="fas fa-check"></i>15GB Secure Cloud Storage</li>
+              <li><i class="fas fa-check"></i>Gold Support Priority</li>
+              <li><i class="fas fa-check"></i>File Sync Across Devices</li>
+            </ul>
+            <a href="https://wa.me/237673805208?text=Hello%20PRONET%20GOLD!%20I%20want%20to%20subscribe%20to%20the%20GOLD%20STANDARD%20plan%20(1000%20XAF%20for%2010GB%20%2B%2015GB%20free%20cloud%20storage).%20Please%20guide%20me%20through%20the%20payment%20process." 
+               class="organic-btn" 
+               target="_blank">
+              <i class="fas fa-crown"></i>
+              SUBSCRIBE NOW
             </a>
-            <a class="btn" style="background:var(--glass);color:var(--muted)" href="https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000959468.png?alt=media&token=f6d0e558-959a-4340-ba28-dd9f951bcf6c" onclick="alert('https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000959468.png?alt=media&token=f6d0e558-959a-4340-ba28-dd9f951bcf6c')">
-              <i class="fa-solid fa-download"></i> Download
+          </div>
+
+          <!-- Student Gold Plan -->
+          <div class="organic-card">
+            <div class="card-image">
+              <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Student Elite">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="card-header">
+              <h3 class="card-title">STUDENT ELITE</h3>
+              <p class="card-subtitle">Academic excellence package</p>
+            </div>
+            <div class="card-price">2000<span>XAF</span></div>
+            
+            <!-- Storage Feature -->
+            <div class="storage-badge">
+              <i class="fas fa-cloud-upload-alt"></i>
+              + 30GB FREE Cloud Storage
+            </div>
+            
+            <ul class="features-list">
+              <li><i class="fas fa-check"></i>1 Month Full Access</li>
+              <li><i class="fas fa-check"></i>30GB Secure Cloud Storage</li>
+              <li><i class="fas fa-check"></i>Academic Resources Access</li>
+              <li><i class="fas fa-check"></i>Document Version History</li>
+              <li><i class="fas fa-check"></i>Special Student Discount</li>
+            </ul>
+            <a href="https://wa.me/237673805208?text=Hello%20PRONET%20GOLD!%20I%20want%20to%20subscribe%20to%20the%20STUDENT%20ELITE%20plan%20(2000%20XAF%20for%201%20month%20%2B%2030GB%20free%20cloud%20storage).%20Please%20guide%20me%20through%20the%20payment%20process." 
+               class="organic-btn" 
+               target="_blank">
+              <i class="fas fa-user-graduate"></i>
+              GET STUDENT DEAL
+            </a>
+          </div>
+
+          <!-- Platinum Plan -->
+          <div class="organic-card">
+            <div class="card-image">
+              <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Platinum">
+              <i class="fas fa-crown"></i>
+            </div>
+            <div class="card-header">
+              <h3 class="card-title">PLATINUM</h3>
+              <p class="card-subtitle">Unmatched performance</p>
+            </div>
+            <div class="card-price">3000<span>XAF</span></div>
+            
+            <!-- Storage Feature -->
+            <div class="storage-badge">
+              <i class="fas fa-cloud-upload-alt"></i>
+              + 60GB FREE Cloud Storage
+            </div>
+            
+            <ul class="features-list">
+              <li><i class="fas fa-check"></i>1 Month Unlimited*</li>
+              <li><i class="fas fa-check"></i>+10GB Free Data</li>
+              <li><i class="fas fa-check"></i>60GB Secure Cloud Storage</li>
+              <li><i class="fas fa-check"></i>Advanced File Sharing</li>
+              <li><i class="fas fa-check"></i>24/7 Priority Support</li>
+            </ul>
+            <a href="https://wa.me/237673805208?text=Hello%20PRONET%20GOLD!%20I%20want%20to%20subscribe%20to%20the%20PLATINUM%20plan%20(3000%20XAF%20for%201%20month%20%2B%2010GB%20free%20data%20%2B%2060GB%20cloud%20storage).%20Please%20guide%20me%20through%20the%20payment%20process." 
+               class="organic-btn" 
+               target="_blank">
+              <i class="fas fa-star"></i>
+              GO PREMIUM
             </a>
           </div>
         </div>
       </div>
-    </article>
+
+      <!-- Short-term Organic Plans -->
+      <div class="mb-16">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title gold-font">Flexible Plans</h2>
+            <p class="text-gold-200 mt-4 text-lg">Short-term solutions with free cloud storage</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+          <div class="organic-card">
+            <div class="card-image">
+              <img src="https://images.unsplash.com/photo-1533750349088-cd871a92f312?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Weekend Plan">
+              <i class="fas fa-weekend"></i>
+            </div>
+            <div class="card-header">
+              <h3 class="card-title">WEEKEND SPECIAL</h3>
+              <p class="card-subtitle">3-day premium access</p>
+            </div>
+            <div class="card-price">500<span>XAF</span></div>
+            
+            <!-- Storage Feature -->
+            <div class="storage-badge">
+              <i class="fas fa-cloud-upload-alt"></i>
+              + 5GB FREE Cloud Storage
+            </div>
+            
+            <ul class="features-list">
+              <li><i class="fas fa-check"></i>4GB High-speed Data</li>
+              <li><i class="fas fa-check"></i>Perfect for weekends</li>
+              <li><i class="fas fa-check"></i>5GB Cloud Storage</li>
+              <li><i class="fas fa-check"></i>Quick activation</li>
+            </ul>
+            <a href="https://wa.me/237673805208?text=Hello%20PRONET%20GOLD!%20I%20want%20to%20subscribe%20to%20the%20WEEKEND%20SPECIAL%20plan%20(500%20XAF%20for%204GB%20%2B%205GB%20cloud%20storage).%20Please%20guide%20me%20through%20the%20payment%20process." 
+               class="organic-btn" 
+               target="_blank">
+              <i class="fas fa-bolt"></i>
+              GET WEEKEND ACCESS
+            </a>
+          </div>
+
+          <div class="organic-card">
+            <div class="card-image">
+              <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Weekly Plan">
+              <i class="fas fa-calendar-week"></i>
+            </div>
+            <div class="card-header">
+              <h3 class="card-title">WEEKLY ACCESS</h3>
+              <p class="card-subtitle">7-day full service</p>
+            </div>
+            <div class="card-price">600<span>XAF</span></div>
+            
+            <!-- Storage Feature -->
+            <div class="storage-badge">
+              <i class="fas fa-cloud-upload-alt"></i>
+              + 10GB FREE Cloud Storage
+            </div>
+            
+            <ul class="features-list">
+              <li><i class="fas fa-check"></i>Full Week Access</li>
+              <li><i class="fas fa-check"></i>10GB Cloud Storage</li>
+              <li><i class="fas fa-check"></i>Stable connection</li>
+              <li><i class="fas fa-check"></i>No commitment</li>
+            </ul>
+            <a href="https://wa.me/237673805208?text=Hello%20PRONET%20GOLD!%20I%20want%20to%20subscribe%20to%20the%20WEEKLY%20ACCESS%20plan%20(600%20XAF%20for%201%20week%20%2B%2010GB%20cloud%20storage).%20Please%20guide%20me%20through%20the%20payment%20process." 
+               class="organic-btn" 
+               target="_blank">
+              <i class="fas fa-clock"></i>
+              GET WEEKLY PLAN
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Premium Diamond Plans -->
+      <div class="mb-16">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title gold-font">Diamond Plans + Massive Storage</h2>
+            <p class="text-gold-200 mt-4 text-lg">Long-term luxury with massive free cloud storage</p>
+          </div>
+        </div>
+
+        <div class="premium-grid">
+          <!-- Quarterly Diamond -->
+          <div class="premium-card">
+            <div class="card-image">
+              <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Quarterly">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="card-header">
+              <h3 class="card-title">QUARTERLY DIAMOND</h3>
+              <p class="card-subtitle">3 months premium + storage</p>
+            </div>
+            <div class="card-price">7,000<span>XAF</span></div>
+            
+            <!-- Storage Feature -->
+            <div class="storage-badge" style="background: linear-gradient(135deg, rgba(0, 123, 255, 0.2), rgba(0, 123, 255, 0.1)); color: #007bff; border-color: rgba(0, 123, 255, 0.3);">
+              <i class="fas fa-database"></i>
+              + 150GB FREE Cloud Storage
+            </div>
+            
+            <ul class="features-list">
+              <li><i class="fas fa-check"></i>Unlimited Satellite Access</li>
+              <li><i class="fas fa-check"></i>150GB Secure Cloud Storage</li>
+              <li><i class="fas fa-check"></i>Premium Gold Support</li>
+              <li><i class="fas fa-check"></i>Advanced File Encryption</li>
+              <li><i class="fas fa-check"></i>+5GB Monthly Bonus Data</li>
+              <li><i class="fas fa-check"></i>Collaboration Tools</li>
+            </ul>
+            <a href="https://wa.me/237673805208?text=Hello%20PRONET%20GOLD!%20I%20want%20to%20subscribe%20to%20the%20QUARTERLY%20DIAMOND%20plan%20(7,000%20XAF%20for%203%20months%20%2B%20150GB%20cloud%20storage).%20Please%20guide%20me%20through%20the%20payment%20process." 
+               class="organic-btn" 
+               target="_blank">
+              <i class="fas fa-gem"></i>
+              CHOOSE QUARTERLY
+            </a>
+          </div>
+
+          <!-- Half Yearly Diamond -->
+          <div class="premium-card">
+            <div class="card-image">
+              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Half Yearly">
+              <i class="fas fa-fire"></i>
+            </div>
+            <div class="card-header">
+              <h3 class="card-title">HALF YEARLY DIAMOND</h3>
+              <p class="card-subtitle">6 months best value</p>
+            </div>
+            <div class="card-price">10,000<span>XAF</span></div>
+            
+            <!-- Storage Feature -->
+            <div class="storage-badge" style="background: linear-gradient(135deg, rgba(111, 66, 193, 0.2), rgba(111, 66, 193, 0.1)); color: #6f42c1; border-color: rgba(111, 66, 193, 0.3);">
+              <i class="fas fa-server"></i>
+              + 300GB FREE Cloud Storage
+            </div>
+            
+            <ul class="features-list">
+              <li><i class="fas fa-check"></i>Unlimited Satellite Access</li>
+              <li><i class="fas fa-check"></i>300GB Secure Cloud Storage</li>
+              <li><i class="fas fa-check"></i>24/7 VIP Support</li>
+              <li><i class="fas fa-check"></i>Maximum Bandwidth Priority</li>
+              <li><i class="fas fa-check"></i>+10GB Monthly Bonus Data</li>
+              <li><i class="fas fa-check"></i>Automatic Backup</li>
+            </ul>
+            <a href="https://wa.me/237673805208?text=Hello%20PRONET%20GOLD!%20I%20want%20to%20subscribe%20to%20the%20HALF%20YEARLY%20DIAMOND%20plan%20(10,000%20XAF%20for%206%20months%20%2B%20300GB%20cloud%20storage).%20Please%20guide%20me%20through%20the%20payment%20process." 
+               class="organic-btn" 
+               target="_blank">
+              <i class="fas fa-star"></i>
+              CHOOSE HALF YEARLY
+            </a>
+          </div>
+
+          <!-- Annual Diamond -->
+          <div class="premium-card">
+            <div class="card-image">
+              <img src="https://images.unsplash.com/photo-1604079628040-94301bb21b91?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Annual">
+              <i class="fas fa-award"></i>
+            </div>
+            <div class="card-header">
+              <h3 class="card-title">ANNUAL DIAMOND</h3>
+              <p class="card-subtitle">12 months ultimate luxury</p>
+            </div>
+            <div class="card-price">20,000<span>XAF</span></div>
+            
+            <!-- Storage Feature -->
+            <div class="storage-badge" style="background: linear-gradient(135deg, rgba(220, 53, 69, 0.2), rgba(220, 53, 69, 0.1)); color: #dc3545; border-color: rgba(220, 53, 69, 0.3);">
+              <i class="fas fa-hdd"></i>
+              + 1TB FREE Cloud Storage
+            </div>
+            
+            <ul class="features-list">
+              <li><i class="fas fa-check"></i>Unlimited Satellite Access</li>
+              <li><i class="fas fa-check"></i>1TB Secure Cloud Storage</li>
+              <li><i class="fas fa-check"></i>VIP Concierge Support 24/7</li>
+              <li><i class="fas fa-check"></i>Guaranteed Max Speed</li>
+              <li><i class="fas fa-check"></i>+15GB Monthly Bonus Data</li>
+              <li><i class="fas fa-check"></i>Free Premium Setup Kit</li>
+              <li><i class="fas fa-check"></i>Advanced Security Suite</li>
+            </ul>
+            <a href="https://wa.me/237673805208?text=Hello%20PRONET%20GOLD!%20I%20want%20to%20subscribe%20to%20the%20ANNUAL%20DIAMOND%20plan%20(20,000%20XAF%20for%2012%20months%20%2B%201TB%20cloud%20storage).%20Please%20guide%20me%20through%20the%20payment%20process." 
+               class="organic-btn" 
+               target="_blank">
+              <i class="fas fa-crown"></i>
+              CHOOSE ANNUAL
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonials Section -->
+      <div class="testimonials-section">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title gold-font">Customer Testimonials</h2>
+            <p class="text-gold-200 mt-4 text-lg">See what our premium customers are saying</p>
+          </div>
+          <div class="flex items-center gap-2 text-gold-300">
+            <i class="fas fa-star"></i>
+            <span class="text-xl font-bold">4.9</span>
+            <span class="text-gold-400">/ 5.0 Rating</span>
+          </div>
+        </div>
+
+        <div class="testimonials-grid">
+          <!-- Testimonial 1 -->
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">
+              "The 1TB cloud storage with Annual Diamond plan is incredible! I store all my work files securely and access them from anywhere. PRONET GOLD is a game-changer!"
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">MK</div>
+              <div class="author-info">
+                <h4>Michael K.</h4>
+                <p>Annual Diamond Plan • 1TB Storage User</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <p class="testimonial-text">
+              "As a student, the 30GB cloud storage is perfect for all my research papers and projects. Internet is blazing fast too!"
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">SA</div>
+              <div class="author-info">
+                <h4>Sarah A.</h4>
+                <p>Student Elite Plan • 30GB Storage</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="testimonial-card">
+            <div class="testimonial-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">
+              "300GB storage with Half Yearly plan! My entire photo library is now securely backed up. The value is unbeatable!"
+            </p>
+            <div class="testimonial-author">
+              <div class="author-avatar">DJ</div>
+              <div class="author-info">
+                <h4>David J.</h4>
+                <p>Half Yearly Diamond • 300GB Storage</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Storage Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
+          <div class="text-center p-6 bg-gradient-to-br from-gray-900 to-black rounded-2xl border border-gold-800" style="clip-path: polygon(0% 15%, 10% 0%, 90% 0%, 100% 15%, 100% 85%, 90% 100%, 10% 100%, 0% 85%);">
+            <div class="text-3xl font-bold text-gold-300">1TB</div>
+            <div class="text-gold-200 text-sm mt-2">Max Free Storage</div>
+          </div>
+          <div class="text-center p-6 bg-gradient-to-br from-gray-900 to-black rounded-2xl border border-gold-800" style="clip-path: polygon(0% 15%, 10% 0%, 90% 0%, 100% 15%, 100% 85%, 90% 100%, 10% 100%, 0% 85%);">
+            <div class="text-3xl font-bold text-gold-300">99.9%</div>
+            <div class="text-gold-200 text-sm mt-2">Storage Uptime</div>
+          </div>
+          <div class="text-center p-6 bg-gradient-to-br from-gray-900 to-black rounded-2xl border border-gold-800" style="clip-path: polygon(0% 15%, 10% 0%, 90% 0%, 100% 15%, 100% 85%, 90% 100%, 10% 100%, 0% 85%);">
+            <div class="text-3xl font-bold text-gold-300">AES-256</div>
+            <div class="text-gold-200 text-sm mt-2">Storage Encryption</div>
+          </div>
+          <div class="text-center p-6 bg-gradient-to-br from-gray-900 to-black rounded-2xl border border-gold-800" style="clip-path: polygon(0% 15%, 10% 0%, 90% 0%, 100% 15%, 100% 85%, 90% 100%, 10% 100%, 0% 85%);">
+            <div class="text-3xl font-bold text-gold-300">24/7</div>
+            <div class="text-gold-200 text-sm mt-2">Storage Access</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Sidebar -->
-    <aside class="sidebar" aria-label="Contact and links">
-      <h3>Quick Contact</h3>
-      <p>Use the links below to reach customers instantly or sell via Selar. Replace placeholder links with your real URLs.</p>
-
-      <div class="qr" aria-hidden="false">
-        <div>
-          <div style="font-size:18px;font-weight:800;color:#2b2b2b"><img src="https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000960376.jpg?alt=media&token=d67e79e2-dddb-4555-a343-9d027f456600" height="150px" width="150px"></div>
-          <div class="placeholder" style="margin-top:6px"></div>
+    <div class="sidebar">
+      <h3 class="sidebar-title gold-font">VIP ACCESS</h3>
+      
+      <div class="qr-container">
+        <div class="qr-inner">
+          <img src="https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000960376.jpg?alt=media&token=d67e79e2-dddb-4555-a343-9d027f456600" 
+               alt="VIP QR Code" 
+               width="140" 
+               height="140">
         </div>
-        <!-- You can later inject an <img> QR code here. -->
       </div>
 
-      <div class="links">
-        <!-- Replace href values with your links -->
-        <a class="btn btn-ws" id="whatsappLink" href="https://wa.me/237673805208?text=Hello,%20greetings%20to%20the%20*PRONET*%20Community,%20I%20wish%20to%20purchase%20an%20internet%20bundle%20______________" target="_blank" rel="noopener">
-          <i class="fa-brands fa-whatsapp"></i> Message on WhatsApp
+      <div class="action-buttons">
+        <a href="https://wa.me/237673805208?text=Hello%20PRONET%20GOLD!%20I%20need%20help%20choosing%20the%20right%20plan%20with%20cloud%20storage.%20Can%20you%20guide%20me?" 
+           class="gold-btn" 
+           target="_blank">
+          <i class="fab fa-whatsapp"></i>
+          CHAT WITH US
         </a>
-
-        <a class="btn btn-selar" id="selarLink" href="https://selar.com/pbcn6cnikl" target="_blank" rel="noopener">
-          <i class="fa-solid fa-store"></i> Visit Selar Store
+        
+        <a href="https://wa.me/237673805208?text=Hello%20PRONET%20GOLD!%20I%20have%20questions%20about%20the%20cloud%20storage%20features.%20Can%20you%20help?" 
+           class="gold-btn outline-btn" 
+           target="_blank">
+          <i class="fas fa-cloud"></i>
+          STORAGE HELP
         </a>
-
-        <a class="btn btn-qr" id="moreLink" href="https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000960376.jpg?alt=media&token=d67e79e2-dddb-4555-a343-9d027f456600" onclick="alert('Replace with your social or registration link');return false;">
-          <i class="fa-solid fa-link"></i> Other links / Register
+        
+        <a href="https://wa.me/237673805208?text=Hello%20PRONET%20GOLD!%20I%20want%20to%20access%20my%20free%20cloud%20storage.%20How%20do%20I%20get%20started?" 
+           class="gold-btn outline-btn" 
+           target="_blank">
+          <i class="fas fa-hdd"></i>
+          ACCESS STORAGE
         </a>
       </div>
 
-      <div class="meta">
-        <div style="display:flex;align-items:center;gap:8px">
-          <i class="fa-solid fa-circle" style="color:var(--card);font-size:10px"></i>
-          <div>24/7 Support</div>
-        </div>
-        <div style="font-weight:800;color:var(--card-dark)">CUINS</div>
+      <div class="mt-10 p-6 bg-gradient-to-br from-gray-900 to-black rounded-2xl border border-gold-800" style="clip-path: polygon(0% 15%, 10% 0%, 90% 0%, 100% 15%, 100% 85%, 90% 100%, 10% 100%, 0% 85%);">
+        <h4 class="text-xl font-bold text-gold-300 mb-4">CLOUD STORAGE FEATURES</h4>
+        <ul class="space-y-3">
+          <li class="flex items-center gap-3">
+            <div class="w-2 h-2 bg-gold-500 rounded-full"></div>
+            <span class="text-sm">Secure AES-256 Encryption</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <div class="w-2 h-2 bg-gold-500 rounded-full"></div>
+            <span class="text-sm">Multi-device Sync</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <div class="w-2 h-2 bg-gold-500 rounded-full"></div>
+            <span class="text-sm">File Version History</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <div class="w-2 h-2 bg-gold-500 rounded-full"></div>
+            <span class="text-sm">Easy File Sharing</span>
+          </li>
+        </ul>
       </div>
-    </aside>
-  </section>
-</div>
 
-<!-- floating action bar -->
-<div class="floatbar" role="navigation" aria-label="Quick actions">
-  <a href="https://wa.me/237673805208?text=Hello,%20greetings%20to%20the%20*PRONET*%20Community,%20I%20wish%20to%20purchase%20an%20internet%20bundle%20______________" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-  <a href="https://selar.com/pbcn6cnikl" target="_blank" rel="noopener"><i class="fa-solid fa-store"></i> Selar</a>
-  <a href="#" onclick="alert('Edit contact settings in page source');return false"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+      <div class="mt-8 p-6 bg-gradient-to-tr from-yellow-900 to-black rounded-2xl border border-yellow-800" style="clip-path: polygon(0% 15%, 10% 0%, 90% 0%, 100% 15%, 100% 85%, 90% 100%, 10% 100%, 0% 85%);">
+        <h4 class="text-xl font-bold text-yellow-300 mb-4">STORAGE COMPARISON</h4>
+        <ul class="space-y-3">
+          <li class="flex justify-between items-center">
+            <span class="text-sm text-gold-200">Student Plan:</span>
+            <span class="font-bold text-gold-300">30GB</span>
+          </li>
+          <li class="flex justify-between items-center">
+            <span class="text-sm text-gold-200">Platinum Plan:</span>
+            <span class="font-bold text-gold-300">60GB</span>
+          </li>
+          <li class="flex justify-between items-center">
+            <span class="text-sm text-gold-200">Quarterly:</span>
+            <span class="font-bold text-gold-300">150GB</span>
+          </li>
+          <li class="flex justify-between items-center">
+            <span class="text-sm text-gold-200">Half Yearly:</span>
+            <span class="font-bold text-gold-300">300GB</span>
+          </li>
+          <li class="flex justify-between items-center">
+            <span class="text-sm text-gold-200">Annual:</span>
+            <span class="font-bold text-gold-300">1TB</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="#">TERMS OF SERVICE</a>
+        <a href="#">PRIVACY POLICY</a>
+        <a href="#">STORAGE POLICY</a>
+        <a href="https://wa.me/237673805208?text=Hello%20PRONET%20GOLD!%20I%20need%20to%20contact%20VIP%20support%20about%20cloud%20storage." target="_blank">CONTACT VIP SUPPORT</a>
+      </div>
+      <div class="copyright">
+        <span class="text-gold-500 font-bold">© 2024 PRONET GOLD</span> • Luxury Satellite Internet + Free Cloud Storage
+      </div>
+    </div>
+  </footer>
 </div>
 
 <script>
 /* ---------------------------
-   Background particles + glow
-   Simple performant particle system using canvas
-   Replace colors or tweak counts below
+   Floating Shapes
    --------------------------- */
-(function(){
-  const canvas = document.getElementById('bgCanvas');
-  const ctx = canvas.getContext('2d');
-  let w = canvas.width = innerWidth;
-  let h = canvas.height = innerHeight;
-  const DPR = window.devicePixelRatio || 1;
-  canvas.width = innerWidth * DPR;
-  canvas.height = innerHeight * DPR;
-  canvas.style.width = innerWidth + 'px';
-  canvas.style.height = innerHeight + 'px';
-  ctx.scale(DPR, DPR);
-
-  const config = {
-    particles: 60,
-    minR: 0.8,
-    maxR: 2.8,
-    speed: 0.2,
-    hueBase: 45, // gold tone
-    hueRange: 50,
-    lineDistance: 140
-  };
-
-  let particles = [];
-
-  function rand(min,max){ return Math.random()*(max-min)+min; }
-
-  function makeParticle(){
-    return {
-      x: rand(0,w),
-      y: rand(0,h),
-      r: rand(config.minR, config.maxR),
-      vx: rand(-config.speed, config.speed),
-      vy: rand(-config.speed, config.speed),
-      hue: rand(config.hueBase - config.hueRange/2, config.hueBase + config.hueRange/2),
-      alpha: rand(0.15, 0.6)
-    };
-  }
-
-  function init(){
-    w = canvas.width = innerWidth * DPR;
-    h = canvas.height = innerHeight * DPR;
-    canvas.style.width = innerWidth + 'px';
-    canvas.style.height = innerHeight + 'px';
-    ctx.scale(DPR, DPR);
-    particles = [];
-    for(let i=0;i<config.particles;i++) particles.push(makeParticle());
-  }
-
-  function step(){
-    ctx.clearRect(0,0,innerWidth,innerHeight);
-
-    // background subtle radial glow
-    const grd = ctx.createLinearGradient(0,0,w,h);
-    grd.addColorStop(0, 'rgba(255,205,80,0.02)');
-    grd.addColorStop(1, 'rgba(120,75,240,0.02)');
-    ctx.fillStyle = grd;
-    ctx.fillRect(0,0,innerWidth,innerHeight);
-
-    // draw particles
-    for(let p of particles){
-      p.x += p.vx;
-      p.y += p.vy;
-
-      if(p.x < -10) p.x = innerWidth + 10;
-      if(p.x > innerWidth +10) p.x = -10;
-      if(p.y < -10) p.y = innerHeight + 10;
-      if(p.y > innerHeight +10) p.y = -10;
-
-      // particle glow
-      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, Math.max(8, p.r*8));
-      g.addColorStop(0, `hsla(${p.hue}, 90%, 60%, ${p.alpha})`);
-      g.addColorStop(0.6, `hsla(${p.hue}, 80%, 55%, ${p.alpha*0.18})`);
-      g.addColorStop(1, `rgba(0,0,0,0)`);
-      ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, Math.max(4, p.r*6), 0, Math.PI*2);
-      ctx.fill();
+document.addEventListener('DOMContentLoaded', function() {
+  const floatingShapes = document.getElementById('floatingShapes');
+  
+  // Create floating abstract shapes
+  for (let i = 0; i < 15; i++) {
+    const shape = document.createElement('div');
+    shape.className = 'floating-shape';
+    
+    // Random position
+    const left = Math.random() * 100;
+    const top = Math.random() * 100;
+    
+    // Random size
+    const size = 40 + Math.random() * 80;
+    
+    // Create unique polygon shape
+    const shapeType = Math.floor(Math.random() * 3);
+    let clipPath = '';
+    
+    switch(shapeType) {
+      case 0:
+        // Octagon with curved edges
+        clipPath = 'polygon(0% 20%, 20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%)';
+        break;
+      case 1:
+        // Organic blob shape
+        clipPath = 'polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)';
+        break;
+      case 2:
+        // Asymmetric shape
+        clipPath = 'polygon(0% 15%, 15% 0%, 85% 0%, 100% 15%, 100% 85%, 85% 100%, 15% 100%, 0% 85%)';
+        break;
     }
+    
+    // Random animation delay and duration
+    const delay = Math.random() * 5;
+    const duration = 20 + Math.random() * 20;
+    
+    shape.style.cssText = `
+      left: ${left}%;
+      top: ${top}%;
+      width: ${size}px;
+      height: ${size}px;
+      clip-path: ${clipPath};
+      animation-delay: ${delay}s;
+      animation-duration: ${duration}s;
+      opacity: ${0.05 + Math.random() * 0.1};
+    `;
+    
+    floatingShapes.appendChild(shape);
+  }
 
-    // connect lines
-    for(let i=0;i<particles.length;i++){
-      for(let j=i+1;j<particles.length;j++){
-        const a = particles[i], b = particles[j];
-        const dx = a.x - b.x, dy = a.y - b.y;
-        const dist = Math.hypot(dx,dy);
-        if(dist < config.lineDistance){
-          const alpha = 0.12 * (1 - dist / config.lineDistance);
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = `rgba(245,200,88,${alpha})`;
-          ctx.lineWidth = 0.8;
-          ctx.stroke();
-        }
+  // Navigation interaction
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(item => {
+    item.addEventListener('click', function() {
+      navItems.forEach(i => i.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Scroll to testimonials when clicked
+      if (this.textContent.includes('TESTIMONIALS')) {
+        const testimonialsSection = document.querySelector('.testimonials-section');
+        testimonialsSection.scrollIntoView({ behavior: 'smooth' });
+      }
+      
+      // Scroll to cloud storage section
+      if (this.textContent.includes('CLOUD STORAGE')) {
+        const storageSection = document.querySelector('.premium-grid');
+        storageSection.scrollIntoView({ behavior: 'smooth' });
+      }
+      
+      // Add ripple effect
+      const ripple = document.createElement('span');
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = event.clientX - rect.left - size / 2;
+      const y = event.clientY - rect.top - size / 2;
+      
+      ripple.style.cssText = `
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 215, 0, 0.3);
+        transform: scale(0);
+        animation: ripple 0.6s ease-out;
+        width: ${size}px;
+        height: ${size}px;
+        top: ${y}px;
+        left: ${x}px;
+      `;
+      
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    });
+  });
+
+  // Add ripple animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
       }
     }
+  `;
+  document.head.appendChild(style);
 
-    requestAnimationFrame(step);
+  // Subscribe button interactions
+  const subscribeBtns = document.querySelectorAll('.organic-btn');
+  subscribeBtns.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      if (!this.href.includes('wa.me')) {
+        e.preventDefault();
+        
+        // Show loading state for demo
+        const originalHTML = this.innerHTML;
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Redirecting to WhatsApp...';
+        this.style.opacity = '0.7';
+        
+        setTimeout(() => {
+          this.innerHTML = originalHTML;
+          this.style.opacity = '1';
+          showGoldNotification('All subscriptions with free cloud storage are processed via WhatsApp!');
+        }, 1500);
+      } else {
+        // Track WhatsApp clicks
+        const planName = this.closest('.organic-card, .premium-card')?.querySelector('.card-title')?.textContent || 'Unknown Plan';
+        const storageBadge = this.closest('.organic-card, .premium-card')?.querySelector('.storage-badge')?.textContent || 'with cloud storage';
+        showGoldNotification(`Opening WhatsApp for ${planName} ${storageBadge}...`);
+      }
+    });
+  });
+
+  // Show gold notification
+  function showGoldNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'fixed top-6 right-6 bg-gradient-to-r from-yellow-900 to-black border border-yellow-700 text-yellow-200 px-6 py-4 rounded-xl shadow-2xl z-50 transform translate-x-full transition-transform duration-500';
+    notification.innerHTML = `
+      <div class="flex items-center gap-4">
+        <div class="w-3 h-3 bg-yellow-400 rounded-full animate-pulse"></div>
+        <div>
+          <p class="font-bold text-yellow-300">VIP NOTIFICATION</p>
+          <p class="text-sm opacity-90">${message}</p>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+      notification.style.transform = 'translateX(0)';
+    }, 10);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+      notification.style.transform = 'translateX(100%)';
+      setTimeout(() => notification.remove(), 500);
+    }, 3000);
   }
 
-  // handle resize
-  let resizeTimer;
-  window.addEventListener('resize', ()=>{
-    // debounce
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(()=>{
-      // reset transform & scale (clear)
-      ctx.setTransform(1,0,0,1,0,0);
-      init();
-    },120);
+  // Add hover effect to cards
+  const cards = document.querySelectorAll('.organic-card, .premium-card, .testimonial-card');
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', function() {
+      const image = this.querySelector('.card-image');
+      const storageBadge = this.querySelector('.storage-badge');
+      
+      if (image) {
+        image.style.transform = 'scale(1.1) rotate(3deg)';
+        image.style.transition = 'transform 0.4s ease';
+      }
+      
+      if (storageBadge) {
+        storageBadge.style.transform = 'scale(1.05)';
+        storageBadge.style.transition = 'transform 0.3s ease';
+      }
+    });
+    
+    card.addEventListener('mouseleave', function() {
+      const image = this.querySelector('.card-image');
+      const storageBadge = this.querySelector('.storage-badge');
+      
+      if (image) {
+        image.style.transform = 'scale(1) rotate(0deg)';
+      }
+      
+      if (storageBadge) {
+        storageBadge.style.transform = 'scale(1)';
+      }
+    });
   });
 
-  init();
-  step();
-})();
-
-/* Timer functionality for each bundle */
-function initializeTimers() {
-  const planPills = document.querySelectorAll('.plan-pill');
-  
-  planPills.forEach(pill => {
-    const expiryDate = new Date(pill.dataset.expiry).getTime();
-    const duration = parseInt(pill.dataset.duration) * 24 * 60 * 60 * 1000; // Convert days to milliseconds
+  // Animate storage badges on page load
+  const storageBadges = document.querySelectorAll('.storage-badge');
+  storageBadges.forEach((badge, index) => {
+    badge.style.opacity = '0';
+    badge.style.transform = 'translateY(20px)';
     
-    updateTimer(pill, expiryDate, duration);
-    
-    // Update timer every second
-    setInterval(() => {
-      updateTimer(pill, expiryDate, duration);
-    }, 1000);
+    setTimeout(() => {
+      badge.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      badge.style.opacity = '1';
+      badge.style.transform = 'translateY(0)';
+    }, 300 + (index * 100));
   });
-}
 
-function updateTimer(pill, expiryDate, duration) {
-  const now = new Date().getTime();
-  const timeLeft = expiryDate - now;
-  
-  const timerDisplay = pill.querySelector('.timer-display');
-  const timerProgress = pill.querySelector('.timer-progress');
-  
-  if (timeLeft > 0) {
-    // Calculate percentage of time remaining
-    const percentage = (timeLeft / duration) * 100;
-    timerProgress.style.width = `${percentage}%`;
+  // Parallax effect on scroll
+  let ticking = false;
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      window.requestAnimationFrame(function() {
+        const scrolled = window.pageYOffset;
+        const floatingShapes = document.querySelectorAll('.floating-shape');
+        
+        floatingShapes.forEach((shape, index) => {
+          const speed = 0.3 + (index * 0.05);
+          const yPos = -(scrolled * speed * 0.1);
+          shape.style.transform = `translateY(${yPos}px)`;
+        });
+        
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  // Storage comparison animation
+  const storageItems = document.querySelectorAll('.sidebar ul li');
+  storageItems.forEach((item, index) => {
+    item.style.opacity = '0';
+    item.style.transform = 'translateX(-20px)';
     
-    // Calculate days, hours, minutes, seconds
-    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-    
-    // Format display
-    if (days > 0) {
-      timerDisplay.textContent = `${days}d ${hours}h ${minutes}m`;
-    } else if (hours > 0) {
-      timerDisplay.textContent = `${hours}h ${minutes}m ${seconds}s`;
-    } else {
-      timerDisplay.textContent = `${minutes}m ${seconds}s`;
+    setTimeout(() => {
+      item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+      item.style.opacity = '1';
+      item.style.transform = 'translateX(0)';
+    }, 500 + (index * 100));
+  });
+
+  // Gold particle effect on logo click
+  const logo = document.querySelector('.logo-shape');
+  logo.addEventListener('click', function() {
+    for (let i = 0; i < 30; i++) {
+      createGoldParticle(this);
     }
     
-    // Remove expired class if present
-    pill.classList.remove('timer-expired');
-  } else {
-    // Timer has expired
-    timerDisplay.textContent = 'EXPIRED';
-    timerProgress.style.width = '0%';
-    pill.classList.add('timer-expired');
-  }
-}
+    // Show storage message
+    showGoldNotification('All plans now include FREE cloud storage! 🚀');
+  });
 
-/* Entrance micro-interactions: buttons change text to show state (simulated) */
-document.querySelectorAll('.btn-ws, .btn-selar').forEach(btn=>{
-  btn.addEventListener('click', function(e){
-    // if href is placeholder (#) or default, prevent navigation and show a helpful message
-    const href = this.getAttribute('href') || '';
-    if(href.includes('000000') || href.includes('yourstore') || href === '#'){
+  function createGoldParticle(element) {
+    const particle = document.createElement('div');
+    const rect = element.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    
+    particle.style.cssText = `
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: linear-gradient(135deg, #FFD700, #FFC300);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 100;
+      left: ${x}px;
+      top: ${y}px;
+      animation: goldExplosion 1s ease-out forwards;
+    `;
+    
+    document.body.appendChild(particle);
+    setTimeout(() => particle.remove(), 1000);
+  }
+
+  // Add gold explosion animation
+  const goldStyle = document.createElement('style');
+  goldStyle.textContent = `
+    @keyframes goldExplosion {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(${Math.random() * 200 - 100}px, ${Math.random() * 200 - 100}px) scale(0);
+        opacity: 0;
+      }
+    }
+  `;
+  document.head.appendChild(goldStyle);
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
       e.preventDefault();
-      const name = this.classList.contains('btn-ws') ? 'WhatsApp' : 'Selar';
-      const original = this.innerHTML;
-      this.style.pointerEvents = 'none';
-      this.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Opening...`;
-      setTimeout(()=>{
-        this.innerHTML = original;
-        this.style.pointerEvents = '';
-        alert(`${name} link is a placeholder — please replace it in the HTML with your real link.`);
-      },900);
-    }
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
   });
-});
 
-/* Small accessibility: focus outlines */
-document.addEventListener('keydown', e=>{
-  if(e.key === 'Tab'){
-    document.documentElement.style.scrollBehavior = 'smooth';
+  // Storage highlight animation
+  function highlightStorage() {
+    const storageBadges = document.querySelectorAll('.storage-badge');
+    storageBadges.forEach(badge => {
+      badge.style.boxShadow = '0 0 20px rgba(255, 215, 0, 0.3)';
+      setTimeout(() => {
+        badge.style.boxShadow = 'none';
+      }, 1000);
+    });
   }
-});
 
-// Initialize timers when page loads
-document.addEventListener('DOMContentLoaded', initializeTimers);
+  // Highlight storage every 10 seconds
+  setInterval(highlightStorage, 10000);
+});
 </script>
 </body>
 </html>
