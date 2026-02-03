@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PRONET Tera-Link — Ultra-Fast Internet</title>
+<!-- Tailwind CSS -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Comic Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@400;600;700;800&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --comic-red: #FF3B30;
+    --comic-blue: #007AFF;
+    --comic-yellow: #FFCC00;
+    --comic-green: #34C759;
+    --comic-purple: #AF52DE;
+    --comic-orange: #FF9500;
+    --comic-bg: #FFFFFF;
+    --comic-border: #000000;
+    --comic-panel: #F2F2F7;
+    --comic-highlight: #FFF9E6;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Comic Neue', cursive;
+    background: var(--comic-bg);
+    color: #000;
+    position: relative;
+    overflow-x: hidden;
+    background-image: 
+      radial-gradient(circle at 25% 25%, rgba(255, 204, 0, 0.05) 0%, transparent 55%),
+      radial-gradient(circle at 75% 75%, rgba(0, 122, 255, 0.05) 0%, transparent 55%);
+  }
+
+  /* Internet Expiry Notification */
+  .expiry-notification {
+    background: linear-gradient(135deg, #FF3B30, #FF9500);
+    color: white;
+    border-bottom: 4px solid var(--comic-border);
+    padding: 15px 20px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    animation: pulseWarning 2s infinite;
+  }
+
+  .expiry-notification .highlight {
+    background: #FFCC00;
+    color: #000;
+    padding: 5px 15px;
+    border-radius: 20px;
+    border: 2px solid var(--comic-border);
+    margin: 0 10px;
+    font-weight: 900;
+    animation: bounce 1s infinite;
+  }
+
+  .expiry-notification .icon {
+    margin-right: 10px;
+    animation: shake 0.5s infinite;
+  }
+
+  @keyframes pulseWarning {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.9; }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+  }
+
+  .comic-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+  }
+
+  /* Comic Speech Bubble */
+  .speech-bubble {
+    background: white;
+    border: 3px solid var(--comic-border);
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+  }
+
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50px;
+    border: 10px solid transparent;
+    border-top-color: white;
+    border-left-color: white;
+    box-shadow: 2px 2px 0 var(--comic-border);
+  }
+
+  /* Comic Panel */
+  .comic-panel {
+    background: var(--comic-panel);
+    border: 4px solid var(--comic-border);
+    border-radius: 0;
+    padding: 25px;
+    position: relative;
+    margin-bottom: 30px;
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
+    transform: rotate(-0.5deg);
+    transition: transform 0.3s ease;
+  }
+
+  .comic-panel:hover {
+    transform: rotate(0deg) translateY(-5px);
+    box-shadow: 15px 15px 0 rgba(0, 0, 0, 0.15);
+  }
+
+  /* Comic Header */
+  .comic-header {
+    background: linear-gradient(135deg, var(--comic-red), var(--comic-orange));
+    padding: 25px;
+    border: 4px solid var(--comic-border);
+    margin-bottom: 40px;
+    position: relative;
+    transform: rotate(1deg);
+    box-shadow: 15px 15px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .comic-logo {
+    font-family: 'Bangers', cursive;
+    font-size: 4rem;
+    color: white;
+    text-align: center;
+    text-shadow: 
+      3px 3px 0 var(--comic-border),
+      6px 6px 0 rgba(0, 0, 0, 0.2);
+    letter-spacing: 2px;
+    transform: rotate(-2deg);
+  }
+
+  .comic-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--comic-yellow);
+    text-align: center;
+    text-shadow: 2px 2px 0 var(--comic-border);
+    margin-top: 10px;
+  }
+
+  /* Comic Navigation */
+  .comic-nav {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+
+  .comic-nav-btn {
+    background: var(--comic-blue);
+    color: white;
+    border: 3px solid var(--comic-border);
+    padding: 15px 25px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    transform: rotate(-1deg);
+    transition: all 0.3s ease;
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .comic-nav-btn:hover {
+    transform: rotate(0deg) scale(1.05);
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.3);
+    background: var(--comic-red);
+  }
+
+  .comic-nav-btn.active {
+    background: var(--comic-yellow);
+    color: #000;
+    transform: rotate(0deg);
+    animation: bounce 0.5s ease infinite alternate;
+  }
+
+  /* Comic Cards */
+  .comic-card {
+    background: white;
+    border: 4px solid var(--comic-border);
+    border-radius: 0;
+    padding: 30px;
+    position: relative;
+    margin-bottom: 30px;
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .comic-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 15px 15px 0 rgba(0, 0, 0, 0.15);
+  }
+
+  .comic-card-title {
+    font-family: 'Bangers', cursive;
+    font-size: 2.5rem;
+    color: var(--comic-blue);
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+    display: inline-block;
+  }
+
+  .comic-card-title::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--comic-yellow);
+    transform: skewX(-15deg);
+  }
+
+  /* Price Display */
+  .comic-price {
+    font-family: 'Bangers', cursive;
+    font-size: 4rem;
+    color: var(--comic-green);
+    text-shadow: 
+      2px 2px 0 var(--comic-border),
+      4px 4px 0 rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    transform: rotate(-2deg);
+    display: inline-block;
+  }
+
+  /* Storage Badge */
+  .storage-badge {
+    background: var(--comic-yellow);
+    color: #000;
+    border: 3px solid var(--comic-border);
+    padding: 12px 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+    transform: rotate(2deg);
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+
+  .storage-badge::before {
+    content: '!';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 25px;
+    height: 25px;
+    background: var(--comic-red);
+    color: white;
+    border: 2px solid var(--comic-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  /* Features List */
+  .comic-features {
+    list-style: none;
+    margin: 25px 0;
+  }
+
+  .comic-features li {
+    padding: 12px 0;
+    border-bottom: 2px dashed var(--comic-border);
+    position: relative;
+    padding-left: 40px;
+  }
+
+  .comic-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 25px;
+    height: 25px;
+    background: var(--comic-green);
+    color: white;
+    border: 2px solid var(--comic-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  /* Comic Button */
+  .comic-btn {
+    background: linear-gradient(135deg, var(--comic-red), var(--comic-orange));
+    color: white;
+    border: 3px solid var(--comic-border);
+    padding: 18px 30px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: center;
+    position: relative;
+    transform: rotate(-1deg);
+    transition: all 0.3s ease;
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .comic-btn:hover {
+    transform: rotate(0deg) scale(1.05);
+    box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, var(--comic-green), var(--comic-blue));
+    color: white;
+    text-decoration: none;
+  }
+
+  /* Premium Card */
+  .premium-card {
+    background: linear-gradient(135deg, #FFF9E6, #FFF0CC);
+    border-color: var(--comic-purple);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .premium-card::before {
+    content: 'PREMIUM';
+    position: absolute;
+    top: 20px;
+    right: -30px;
+    background: var(--comic-purple);
+    color: white;
+    padding: 10px 40px;
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    transform: rotate(45deg);
+    border: 3px solid var(--comic-border);
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  /* Testimonials */
+  .testimonial-card {
+    background: white;
+    border: 4px solid var(--comic-border);
+    padding: 25px;
+    position: relative;
+    margin-bottom: 30px;
+    transform: rotate(1deg);
+  }
+
+  .testimonial-card:nth-child(even) {
+    transform: rotate(-1deg);
+  }
+
+  .testimonial-text {
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    position: relative;
+    padding-left: 30px;
+  }
+
+  .testimonial-text::before {
+    content: '"';
+    position: absolute;
+    left: 0;
+    top: -10px;
+    font-size: 4rem;
+    color: var(--comic-yellow);
+    font-family: 'Bangers', cursive;
+    opacity: 0.3;
+  }
+
+  /* Speed Lines */
+  .speed-line {
+    position: absolute;
+    background: var(--comic-blue);
+    opacity: 0.1;
+    animation: speedLine 1s linear infinite;
+  }
+
+  @keyframes speedLine {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100vw);
+    }
+  }
+
+  /* Comic Grid */
+  .comic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+  }
+
+  /* Onomatopoeia Effects */
+  .pow {
+    font-family: 'Bangers', cursive;
+    font-size: 3rem;
+    color: var(--comic-red);
+    transform: rotate(-15deg);
+    display: inline-block;
+    text-shadow: 
+      3px 3px 0 var(--comic-border),
+      6px 6px 0 rgba(0, 0, 0, 0.1);
+    animation: powEffect 0.5s ease;
+  }
+
+  .boom {
+    font-family: 'Bangers', cursive;
+    font-size: 3rem;
+    color: var(--comic-orange);
+    transform: rotate(15deg);
+    display: inline-block;
+    text-shadow: 
+      3px 3px 0 var(--comic-border),
+      6px 6px 0 rgba(0, 0, 0, 0.1);
+    animation: boomEffect 0.5s ease;
+  }
+
+  @keyframes powEffect {
+    0% { transform: scale(0) rotate(-15deg); }
+    50% { transform: scale(1.2) rotate(-15deg); }
+    100% { transform: scale(1) rotate(-15deg); }
+  }
+
+  @keyframes boomEffect {
+    0% { transform: scale(0) rotate(15deg); }
+    50% { transform: scale(1.2) rotate(15deg); }
+    100% { transform: scale(1) rotate(15deg); }
+  }
+
+  @keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+  }
+
+  /* Section Headers */
+  .section-header {
+    font-family: 'Bangers', cursive;
+    font-size: 3.5rem;
+    color: var(--comic-blue);
+    margin: 40px 0 30px;
+    position: relative;
+    display: inline-block;
+    transform: rotate(-2deg);
+  }
+
+  .section-header::before {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: var(--comic-red);
+    transform: skewX(-20deg);
+  }
+
+  /* QR Code Container */
+  .qr-comic {
+    background: white;
+    border: 4px solid var(--comic-border);
+    padding: 20px;
+    text-align: center;
+    transform: rotate(2deg);
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.1);
+    margin: 30px 0;
+  }
+
+  .qr-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    color: var(--comic-purple);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+  }
+
+  /* Footer */
+  .comic-footer {
+    background: black;
+    border-top: 4px solid var(--comic-border);
+    padding: 30px;
+    margin-top: 50px;
+    position: relative;
+    transform: rotate(1deg);
+  }
+
+  .comic-footer::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: var(--comic-yellow);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .expiry-notification {
+      font-size: 1rem;
+      padding: 12px 15px;
+    }
+    
+    .expiry-notification .highlight {
+      display: block;
+      margin: 8px 0;
+      padding: 8px;
+    }
+    
+    .comic-logo {
+      font-size: 2.5rem;
+    }
+    
+    .comic-nav {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .comic-nav-btn {
+      width: 100%;
+      max-width: 300px;
+    }
+    
+    .comic-price {
+      font-size: 3rem;
+    }
+    
+    .section-header {
+      font-size: 2.5rem;
+    }
+  }
+
+  /* Speed Lines Container */
+  #speedLines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+  }
+</style>
+</head>
+<body>
+
+<!-- Internet Expiry Notification -->
+<div class="expiry-notification">
+  <i class="fas fa-exclamation-triangle icon"></i>
+  <strong>⚠️ URGENT NOTICE:</strong> 
+  Internet service will 
+  <span class="highlight">EXPIRE on February 6th by 1:00 PM</span>
+  ⏰ 
+  Renew now to avoid interruption! 
+  <i class="fas fa-exclamation-triangle icon"></i>
+</div>
+
+<!-- Speed Lines Background -->
+<div id="speedLines"></div>
+
+<div class="comic-container">
+  <!-- Comic Header -->
+  <header class="comic-header">
+    <div class="comic-logo">PRONET TERA-LINK!</div>
+    <div class="comic-subtitle">⚡ BLAZING FAST INTERNET ⚡</div>
+  </header>
+
+  <!-- Network Status -->
+  <div class="speech-bubble">
+    <div class="flex items-center justify-between flex-wrap">
+      <div class="flex items-center gap-4">
+        <div class="w-4 h-4 bg-green-500 border-2 border-black rounded-full animate-pulse"></div>
+        <span class="font-bold text-lg">NETWORK STATUS: <span class="text-green-600">SUPER FAST!</span></span>
+      </div>
+      <div class="pow">400MBPS!</div>
+    </div>
+  </div>
+
+  <!-- Comic Navigation -->
+  <nav class="comic-nav">
+    <button class="comic-nav-btn active"><i class="fas fa-bolt"></i> PLANS</button>
+    <button class="comic-nav-btn"><i class="fas fa-map"></i> COVERAGE</button>
+    <button class="comic-nav-btn"><i class="fas fa-tachometer-alt"></i> SPEED TEST</button>
+    <button class="comic-nav-btn"><i class="fas fa-headset"></i> SUPPORT</button>
+    <button class="comic-nav-btn"><i class="fas fa-cloud"></i> STORAGE</button>
+  </nav>
+
+  <!-- Speed Stats -->
+  <div class="comic-panel">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="text-center">
+        <div class="text-4xl font-bold text-red-600">400MBPS</div>
+        <div class="text-sm font-bold">MAX SPEED</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl font-bold text-blue-600">99.9%</div>
+        <div class="text-sm font-bold">UPTIME</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl font-bold text-green-600">24/7</div>
+        <div class="text-sm font-bold">SUPPORT</div>
+      </div>
+      <div class="text-center">
+        <div class="text-4xl font-bold text-purple-600">50+</div>
+        <div class="text-sm font-bold">COUNTRIES</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-2">
+      <!-- Monthly Plans -->
+      <h2 class="section-header">🔥 MONTHLY PLANS 🔥</h2>
+      
+      <div class="comic-grid">
+        <!-- Standard Plan -->
+        <div class="comic-card">
+          <h3 class="comic-card-title">STANDARD</h3>
+          <p class="text-lg mb-4">Perfect for everyday browsing!</p>
+          
+          <div class="comic-price">1000<span class="text-2xl">XAF</span></div>
+          
+          <div class="storage-badge">
+            <i class="fas fa-cloud"></i>
+            +15GB FREE CLOUD STORAGE!
+          </div>
+          
+          <ul class="comic-features">
+            <li>10GB High-speed Data</li>
+            <li>30 Days Access</li>
+            <li>15GB Cloud Storage</li>
+            <li>24/7 Support</li>
+            <li>Secure Connection</li>
+          </ul>
+          
+          <a href="https://wa.me/237673805208?text=Hello%20PRONET%20TERA-LINK!%20I%20want%20the%20STANDARD%20plan%20(1000%20XAF)" 
+             class="comic-btn" 
+             target="_blank">
+            <i class="fas fa-rocket"></i>
+            GET IT NOW!
+          </a>
+        </div>
+
+        <!-- Student Plan -->
+        <div class="comic-card">
+          <h3 class="comic-card-title">STUDENT</h3>
+          <p class="text-lg mb-4">Special deal for students!</p>
+          
+          <div class="comic-price">2000<span class="text-2xl">XAF</span></div>
+          
+          <div class="storage-badge">
+            <i class="fas fa-cloud"></i>
+            +30GB FREE CLOUD STORAGE!
+          </div>
+          
+          <ul class="comic-features">
+            <li>1 Month Full Access</li>
+            <li>30GB Cloud Storage</li>
+            <li>Academic Resources</li>
+            <li>Student Discount</li>
+            <li>24/7 Support</li>
+          </ul>
+          
+          <a href="https://wa.me/237673805208?text=Hello%20PRONET%20TERA-LINK!%20I%20want%20the%20STUDENT%20plan%20(2000%20XAF)" 
+             class="comic-btn" 
+             target="_blank">
+            <i class="fas fa-user-graduate"></i>
+            STUDENT DEAL!
+          </a>
+        </div>
+
+        <!-- Platinum Plan -->
+        <div class="comic-card premium-card">
+          <h3 class="comic-card-title">PLATINUM</h3>
+          <p class="text-lg mb-4">Unlimited premium access!</p>
+          
+          <div class="comic-price">3000<span class="text-2xl">XAF</span></div>
+          
+          <div class="storage-badge" style="background: var(--comic-purple); color: white;">
+            <i class="fas fa-cloud"></i>
+            +60GB FREE CLOUD STORAGE!
+          </div>
+          
+          <ul class="comic-features">
+            <li>Unlimited Data*</li>
+            <li>+10GB Free Data</li>
+            <li>60GB Cloud Storage</li>
+            <li>Priority Support</li>
+            <li>Max Speed Priority</li>
+          </ul>
+          
+          <a href="https://wa.me/237673805208?text=Hello%20PRONET%20TERA-LINK!%20I%20want%20the%20PLATINUM%20plan%20(3000%20XAF)" 
+             class="comic-btn" 
+             target="_blank">
+            <i class="fas fa-crown"></i>
+            GO PREMIUM!
+          </a>
+        </div>
+      </div>
+
+      <!-- Flexible Plans -->
+      <h2 class="section-header mt-16">💨 FLEXIBLE PLANS 💨</h2>
+      
+      <div class="comic-grid">
+        <!-- Weekend Plan -->
+        <div class="comic-card">
+          <h3 class="comic-card-title">WEEKEND</h3>
+          <p class="text-lg mb-4">3-day weekend fun!</p>
+          
+          <div class="comic-price">500<span class="text-2xl">XAF</span></div>
+          
+          <div class="storage-badge">
+            <i class="fas fa-cloud"></i>
+            +5GB FREE STORAGE!
+          </div>
+          
+          <ul class="comic-features">
+            <li>4GB High-speed Data</li>
+            <li>3 Days Access</li>
+            <li>5GB Cloud Storage</li>
+            <li>Quick Activation</li>
+          </ul>
+          
+          <a href="https://wa.me/237673805208?text=Hello%20PRONET%20TERA-LINK!%20I%20want%20the%20WEEKEND%20plan%20(500%20XAF)" 
+             class="comic-btn" 
+             target="_blank">
+            <i class="fas fa-weekend"></i>
+            WEEKEND MODE!
+          </a>
+        </div>
+
+        <!-- Weekly Plan -->
+        <div class="comic-card">
+          <h3 class="comic-card-title">WEEKLY</h3>
+          <p class="text-lg mb-4">Full week of power!</p>
+          
+          <div class="comic-price">600<span class="text-2xl">XAF</span></div>
+          
+          <div class="storage-badge">
+            <i class="fas fa-cloud"></i>
+            +10GB FREE STORAGE!
+          </div>
+          
+          <ul class="comic-features">
+            <li>7 Days Full Access</li>
+            <li>10GB Cloud Storage</li>
+            <li>Stable Connection</li>
+            <li>No Commitment</li>
+          </ul>
+          
+          <a href="https://wa.me/237673805208?text=Hello%20PRONET%20TERA-LINK!%20I%20want%20the%20WEEKLY%20plan%20(600%20XAF)" 
+             class="comic-btn" 
+             target="_blank">
+            <i class="fas fa-calendar-week"></i>
+            WEEK POWER!
+          </a>
+        </div>
+      </div>
+
+      <!-- Long Term Plans -->
+      <h2 class="section-header mt-16">🚀 LONG TERM PLANS 🚀</h2>
+      
+      <div class="comic-grid">
+        <!-- Quarterly -->
+        <div class="comic-card premium-card">
+          <h3 class="comic-card-title">QUARTERLY</h3>
+          <p class="text-lg mb-4">3 months of power!</p>
+          
+          <div class="comic-price">7,000<span class="text-2xl">XAF</span></div>
+          
+          <div class="storage-badge" style="background: var(--comic-blue); color: white;">
+            <i class="fas fa-database"></i>
+            +150GB FREE STORAGE!
+          </div>
+          
+          <ul class="comic-features">
+            <li>Unlimited Satellite Access</li>
+            <li>150GB Cloud Storage</li>
+            <li>Premium Support</li>
+            <li>File Encryption</li>
+            <li>+5GB Monthly Bonus</li>
+          </ul>
+          
+          <a href="https://wa.me/237673805208?text=Hello%20PRONET%20TERA-LINK!%20I%20want%20the%20QUARTERLY%20plan%20(7,000%20XAF)" 
+             class="comic-btn" 
+             target="_blank">
+            <i class="fas fa-gem"></i>
+            3 MONTHS POWER!
+          </a>
+        </div>
+
+        <!-- Half Yearly -->
+        <div class="comic-card premium-card">
+          <h3 class="comic-card-title">HALF YEARLY</h3>
+          <p class="text-lg mb-4">6 months best value!</p>
+          
+          <div class="comic-price">10,000<span class="text-2xl">XAF</span></div>
+          
+          <div class="storage-badge" style="background: var(--comic-purple); color: white;">
+            <i class="fas fa-server"></i>
+            +300GB FREE STORAGE!
+          </div>
+          
+          <ul class="comic-features">
+            <li>Unlimited Satellite Access</li>
+            <li>300GB Cloud Storage</li>
+            <li>VIP Support 24/7</li>
+            <li>Maximum Bandwidth</li>
+            <li>+10GB Monthly Bonus</li>
+          </ul>
+          
+          <a href="https://wa.me/237673805208?text=Hello%20PRONET%20TERA-LINK!%20I%20want%20the%20HALF%20YEARLY%20plan%20(10,000%20XAF)" 
+             class="comic-btn" 
+             target="_blank">
+            <i class="fas fa-star"></i>
+            6 MONTHS VALUE!
+          </a>
+        </div>
+
+        <!-- Annual -->
+        <div class="comic-card premium-card">
+          <h3 class="comic-card-title">ANNUAL</h3>
+          <p class="text-lg mb-4">1 year ultimate power!</p>
+          
+          <div class="comic-price">20,000<span class="text-2xl">XAF</span></div>
+          
+          <div class="storage-badge" style="background: var(--comic-red); color: white;">
+            <i class="fas fa-hdd"></i>
+            +1TB FREE STORAGE!
+          </div>
+          
+          <div class="boom mt-2 mb-4">1TB FREE!</div>
+          
+          <ul class="comic-features">
+            <li>Unlimited Satellite Access</li>
+            <li>1TB Cloud Storage</li>
+            <li>VIP Concierge Support</li>
+            <li>Guaranteed Max Speed</li>
+            <li>+15GB Monthly Bonus</li>
+            <li>Free Premium Setup</li>
+          </ul>
+          
+          <a href="https://wa.me/237673805208?text=Hello%20PRONET%20TERA-LINK!%20I%20want%20the%20ANNUAL%20plan%20(20,000%20XAF)" 
+             class="comic-btn" 
+             target="_blank">
+            <i class="fas fa-crown"></i>
+            ULTIMATE POWER!
+          </a>
+        </div>
+      </div>
+
+      <!-- Testimonials -->
+      <h2 class="section-header mt-16">💬 WHAT USERS SAY 💬</h2>
+      
+      <div class="comic-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-text">
+            "The 1TB cloud storage is incredible! I store all my work files securely. PRONET TERA-LINK is a game-changer!"
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-yellow-400 border-3 border-black rounded-full flex items-center justify-center font-bold text-xl">
+              MK
+            </div>
+            <div>
+              <div class="font-bold">Michael K.</div>
+              <div class="text-sm text-gray-600">Annual Plan • 1TB Storage</div>
+            </div>
+          </div>
+          <div class="text-yellow-400 text-xl mt-3">
+            ★★★★★
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-text">
+            "30GB cloud storage is perfect for all my research papers. Internet is blazing fast too!"
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-blue-400 border-3 border-black rounded-full flex items-center justify-center font-bold text-xl">
+              SA
+            </div>
+            <div>
+              <div class="font-bold">Sarah A.</div>
+              <div class="text-sm text-gray-600">Student Plan • 30GB Storage</div>
+            </div>
+          </div>
+          <div class="text-yellow-400 text-xl mt-3">
+            ★★★★★
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-text">
+            "300GB storage with Half Yearly plan! My entire photo library is now backed up. Unbeatable value!"
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-green-400 border-3 border-black rounded-full flex items-center justify-center font-bold text-xl">
+              DJ
+            </div>
+            <div>
+              <div class="font-bold">David J.</div>
+              <div class="text-sm text-gray-600">Half Yearly • 300GB Storage</div>
+            </div>
+          </div>
+          <div class="text-yellow-400 text-xl mt-3">
+            ★★★★★
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- QR Code -->
+      <div class="qr-comic">
+        <div class="qr-title">SCAN TO CONNECT!</div>
+        <div class="bg-white p-4 inline-block border-3 border-black">
+          <img src="https://firebasestorage.googleapis.com/v0/b/i-to-u.appspot.com/o/publicimage%2F1000960376.jpg?alt=media&token=d67e79e2-dddb-4555-a343-9d027f456600" 
+               alt="QR Code" 
+               width="180" 
+               height="180">
+        </div>
+        <p class="mt-4 font-bold">WhatsApp: +237 673 805 208</p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="comic-card mb-6">
+        <h3 class="comic-card-title">QUICK ACTIONS</h3>
+        <div class="space-y-4 mt-6">
+          <a href="https://wa.me/237673805208" 
+             class="comic-btn bg-green-500" 
+             target="_blank">
+            <i class="fab fa-whatsapp"></i>
+            CHAT NOW!
+          </a>
+          
+          <a href="https://wa.me/237673805208?text=Help%20with%20storage" 
+             class="comic-btn bg-blue-500" 
+             target="_blank">
+            <i class="fas fa-cloud"></i>
+            STORAGE HELP
+          </a>
+          
+          <a href="https://wa.me/237673805208?text=Speed%20test%20help" 
+             class="comic-btn bg-purple-500" 
+             target="_blank">
+            <i class="fas fa-tachometer-alt"></i>
+            SPEED TEST
+          </a>
+        </div>
+      </div>
+
+      <!-- Storage Features -->
+      <div class="comic-card">
+        <h3 class="comic-card-title">CLOUD STORAGE</h3>
+        <div class="space-y-4 mt-6">
+          <div class="flex items-center gap-3 p-3 bg-yellow-50 border-2 border-black">
+            <i class="fas fa-shield-alt text-green-500"></i>
+            <span class="font-bold">Secure Encryption</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-blue-50 border-2 border-black">
+            <i class="fas fa-sync-alt text-blue-500"></i>
+            <span class="font-bold">Multi-device Sync</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-purple-50 border-2 border-black">
+            <i class="fas fa-history text-purple-500"></i>
+            <span class="font-bold">File Version History</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-red-50 border-2 border-black">
+            <i class="fas fa-share-alt text-red-500"></i>
+            <span class="font-bold">Easy File Sharing</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Storage Comparison -->
+      <div class="comic-card mt-6">
+        <h3 class="comic-card-title">STORAGE SIZE</h3>
+        <div class="space-y-3 mt-6">
+          <div class="flex justify-between items-center p-2 border-b-2 border-dashed border-black">
+            <span class="font-bold">Student Plan:</span>
+            <span class="font-bold text-green-600">30GB</span>
+          </div>
+          <div class="flex justify-between items-center p-2 border-b-2 border-dashed border-black">
+            <span class="font-bold">Platinum Plan:</span>
+            <span class="font-bold text-blue-600">60GB</span>
+          </div>
+          <div class="flex justify-between items-center p-2 border-b-2 border-dashed border-black">
+            <span class="font-bold">Quarterly:</span>
+            <span class="font-bold text-purple-600">150GB</span>
+          </div>
+          <div class="flex justify-between items-center p-2 border-b-2 border-dashed border-black">
+            <span class="font-bold">Half Yearly:</span>
+            <span class="font-bold text-red-600">300GB</span>
+          </div>
+          <div class="flex justify-between items-center p-2">
+            <span class="font-bold">Annual:</span>
+            <span class="font-bold text-yellow-600">1TB</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="comic-footer">
+    <div class="text-center text-white">
+      <div class="mb-4">
+        
+        <a href="https://wa.me/237673805208" class="text-white mx-4 font-bold hover:text-yellow-300" target="_blank">CONTACT</a>
+      </div>
+      <div class="text-lg font-bold">
+        <span class="text-yellow-300">© 2026 PROTECH-CEO FOUNDATION</span> • BLAZING FAST INTERNET!
+      </div>
+      <div class="mt-4 text-sm">
+        All plans include FREE cloud storage! 🚀
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+// Create speed lines
+function createSpeedLines() {
+  const container = document.getElementById('speedLines');
+  for (let i = 0; i < 20; i++) {
+    const line = document.createElement('div');
+    line.className = 'speed-line';
+    line.style.width = Math.random() * 100 + 50 + 'px';
+    line.style.height = '2px';
+    line.style.top = Math.random() * 100 + '%';
+    line.style.left = '-100px';
+    line.style.animationDelay = Math.random() * 2 + 's';
+    line.style.opacity = 0.05 + Math.random() * 0.1;
+    container.appendChild(line);
+  }
+}
+
+// Comic animations
+document.addEventListener('DOMContentLoaded', function() {
+  createSpeedLines();
+  
+  // Animate cards on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animation = 'powEffect 0.5s ease';
+        setTimeout(() => {
+          entry.target.style.animation = '';
+        }, 500);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  // Observe all comic cards
+  document.querySelectorAll('.comic-card').forEach(card => {
+    observer.observe(card);
+  });
+
+  // Nav button interactions
+  const navButtons = document.querySelectorAll('.comic-nav-btn');
+  navButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      navButtons.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Add sound effect class
+      this.classList.add('pow');
+      setTimeout(() => this.classList.remove('pow'), 500);
+    });
+  });
+
+  // Button hover effects
+  const buttons = document.querySelectorAll('.comic-btn');
+  buttons.forEach(button => {
+    button.addEventListener('mouseenter', function() {
+      this.style.transform = 'rotate(0deg) scale(1.1)';
+    });
+    
+    button.addEventListener('mouseleave', function() {
+      this.style.transform = 'rotate(-1deg) scale(1)';
+    });
+    
+    button.addEventListener('click', function(e) {
+      if (this.href.includes('wa.me')) {
+        const plan = this.closest('.comic-card')?.querySelector('.comic-card-title')?.textContent || 'plan';
+        showNotification(`Opening WhatsApp for ${plan}...`);
+      }
+    });
+  });
+
+  // Storage badge animation
+  const storageBadges = document.querySelectorAll('.storage-badge');
+  storageBadges.forEach(badge => {
+    badge.addEventListener('mouseenter', function() {
+      this.style.transform = 'rotate(5deg) scale(1.1)';
+    });
+    
+    badge.addEventListener('mouseleave', function() {
+      this.style.transform = 'rotate(2deg) scale(1)';
+    });
+  });
+
+  // Price animation
+  const prices = document.querySelectorAll('.comic-price');
+  prices.forEach(price => {
+    price.addEventListener('mouseenter', function() {
+      this.style.transform = 'rotate(0deg) scale(1.1)';
+    });
+    
+    price.addEventListener('mouseleave', function() {
+      this.style.transform = 'rotate(-2deg) scale(1)';
+    });
+  });
+
+  // Show notification
+  function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'fixed top-4 right-4 bg-yellow-400 border-3 border-black text-black px-6 py-3 font-bold z-50 animate-bounce';
+    notification.textContent = message;
+    notification.style.boxShadow = '5px 5px 0 rgba(0,0,0,0.2)';
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      notification.remove();
+    }, 3000);
+  }
+
+  // Random comic effects
+  function randomComicEffect() {
+    const effects = document.querySelectorAll('.pow, .boom');
+    if (effects.length > 0) {
+      const randomEffect = effects[Math.floor(Math.random() * effects.length)];
+      randomEffect.style.animation = 'none';
+      setTimeout(() => {
+        randomEffect.style.animation = randomEffect.classList.contains('pow') ? 'powEffect 0.5s ease' : 'boomEffect 0.5s ease';
+      }, 10);
+    }
+  }
+
+  // Run random effects every 10 seconds
+  setInterval(randomComicEffect, 10000);
+
+  // Add click sound effect (visual only)
+  document.addEventListener('click', function(e) {
+    if (e.target.tagName === 'BUTTON' || e.target.closest('button') || e.target.tagName === 'A') {
+      const button = e.target.tagName === 'BUTTON' ? e.target : e.target.closest('button') || e.target.closest('a');
+      button.classList.add('active');
+      setTimeout(() => button.classList.remove('active'), 200);
+    }
+  });
+});
+</script>
+</body>
+</html>
